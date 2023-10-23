@@ -1,0 +1,115 @@
+<table class="table mb-0 text-dark border bg-white" #customTable id="customTable">
+    <thead class="table-dark">
+        <tr>
+            <th *ngFor="let col of colDefs; let i = index;"
+                [ngStyle]="{'width':col?.width?col.width+'px':100/colDefs.length+'%'}">
+                <span class="checkBox" *ngIf="col?.headerSelection"><input type="checkbox"></span>
+                <div class="tableHeader">
+                    {{col.headerName}}
+                    <ng-container *ngIf="col.firstValue||col.firstRule=='blank'||col.firstRule=='not_blank'">
+                        <svg viewBox="0 0 24 24" width="24" height="24" stroke="iconColor" stroke-width="2" fill="none"
+                            stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                        </svg>
+                    </ng-container>
+                    <span *ngIf="sortedCol==col.field">
+                        <ng-container *ngIf="sortingType=='asc'">
+                            <svg viewBox="0 0 24 24" width="24" height="24" stroke="iconColor" stroke-width="2"
+                                fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                <line x1="12" y1="19" x2="12" y2="5"></line>
+                                <polyline points="5 12 12 5 19 12"></polyline>
+                            </svg>
+                        </ng-container>
+                        <ng-container *ngIf="sortingType=='des'">
+                            <svg viewBox="0 0 24 24" width="24" height="24" stroke="iconColor" stroke-width="2"
+                                fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <polyline points="19 12 12 19 5 12"></polyline>
+                            </svg>
+                        </ng-container>
+                    </span>
+                    <ng-container>
+                        <span class="filter">
+                            <svg viewBox="0 0 24 24" width="24" height="24" stroke="#fff" stroke-width="2" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                                <line x1="3" y1="12" x2="21" y2="12"></line>
+                                <line x1="3" y1="6" x2="21" y2="6"></line>
+                                <line x1="3" y1="18" x2="21" y2="18"></line>
+                            </svg>
+                        </span>
+                    </ng-container>
+                </div>
+                <!-- <i-feather name="filter"
+                    *ngIf="col.firstValue||col.firstRule=='blank'||col.firstRule=='not_blank'"></i-feather>
+                <span *ngIf="sortedCol==col.field">
+                    <i-feather name="arrow-up" *ngIf="sortingType=='asc'"></i-feather>
+                    <i-feather name="arrow-down" *ngIf="sortingType=='des'"></i-feather>
+                </span>
+                <i-feather class="filter" name="menu" (click)="$event.stopPropagation();" id="dropdownBasic1"
+                    ngbDropdownToggle></i-feather> -->
+                <!-- <div ngbDropdownMenu aria-labelledby="dropdownBasic1" (click)="$event.stopPropagation();">
+                    <form class="filterForm">
+                        <div class="form-group">
+                            <select class="form-control form-control-sm" name="firstRule" [(ngModel)]="col.firstRule"
+                                (change)="applyFilter(col.field,col.firstRule,col.firstValue,col.condition,col.secondRule,col.secondValue)">
+                                <option value="">Select</option>
+                                <option
+                                    *ngFor="let opt of findDataType(col.field)=='string'?stringFilterList:numberFilterList"
+                                    [value]="opt.id">
+                                    {{opt.name}}</option>
+                            </select>
+                            <input [attr.type]="findDataType(col.field)" class="form-control form-control-sm"
+                                *ngIf="!(col.firstRule=='blank'||col.firstRule=='not_blank')" name="firstValue"
+                                [(ngModel)]="col.firstValue"
+                                (keyup)="applyFilter(col.field,col.firstRule,col.firstValue,col.condition,col.secondRule,col.secondValue)">
+                        </div>
+                        <div class="filter-group"
+                            *ngIf="col.firstValue||col.firstRule=='blank'||col.firstRule=='not_blank'">
+                            <input type="radio" name="logical" id="condition" [(ngModel)]="col.condition" value="or"
+                                (change)="applyFilter(col.field,col.firstRule,col.firstValue,col.condition,col.secondRule,col.secondValue)"><label
+                                for="logical">OR</label>
+                            <input type="radio" name="logical" id="condition" [(ngModel)]="col.condition" value="and"
+                                (change)="applyFilter(col.field,col.firstRule,col.firstValue,col.condition,col.secondRule,col.secondValue)">
+                            <label for="logical">AND</label>
+                            <select class="form-control form-control-sm" name="secondRule" [(ngModel)]="col.secondRule"
+                                (change)="applyFilter(col.field,col.firstRule,col.firstValue,col.condition,col.secondRule,col.secondValue)">
+                                <option value="">Select</option>
+                                <option
+                                    *ngFor="let opt of findDataType(col.field)=='string'?stringFilterList:numberFilterList"
+                                    [value]="opt.id">
+                                    {{opt.name}}</option>
+                            </select>
+                            <input [attr.type]="findDataType(col.field)" class="form-control form-control-sm"
+                                *ngIf="!(col.secondRule=='blank'||col.secondRule=='not_blank')" name="secondValue"
+                                [(ngModel)]="col.secondValue"
+                                (keyup)="applyFilter(col.field,col.firstRule,col.firstValue,col.condition,col.secondRule,col.secondValue)">
+                        </div>
+                    </form>
+                </div> -->
+            </th>
+        </tr>
+    </thead>
+    <tbody (dragover)="onDragOver($event)">
+        <ng-container *ngFor="let data of rowData; let i = index;">
+            <tr class="productRow" [draggable]="rowDraggable" (drop)="onDrop($event, data)"
+                (dragstart)="ondragStart(data)">
+
+                <ng-container *ngFor="let col of colDefs;let index = index;">
+                    <td> <span class="checkBox" *ngIf="col?.checkboxSelection"><input type="checkbox"
+                                [checked]="data?.isSelected" (change)="onSelectRow(data)"></span>
+                        <span id="dd" #dd *ngIf="col?.cellRenderer">
+                            <ng-container
+                                *ngIf="!showRendererComponentORNot(col,data)">{{showRendererData(col,data)}}</ng-container>
+                            <ng-container *ngIf="showRendererComponentORNot(col,data)" appAddRenderer [col]="col"
+                                [cellParam]="createParam(col,data)">
+
+                            </ng-container>
+                        </span>
+                        <span *ngIf="!col?.cellRenderer">{{data | tableValueParser:col?.fieldName }}</span>
+
+                    </td>
+                </ng-container>
+            </tr>
+        </ng-container>
+    </tbody>
+</table>
