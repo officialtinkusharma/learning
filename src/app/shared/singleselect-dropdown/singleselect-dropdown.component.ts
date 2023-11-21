@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, OnChanges, SimpleChanges, HostListener } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, OnChanges, SimpleChanges, HostListener, TemplateRef } from '@angular/core';
 
 @Component({
   selector: 'app-singleselect-dropdown',
@@ -20,6 +20,8 @@ export class SingleSelectDropdownComponent implements OnInit, OnChanges {
     textField: 'name'
   }
   @Output() selectItem = new EventEmitter();
+  @Input()
+  optionTemplate!: TemplateRef<any>;
   showdropdown: boolean = false;
   openDropdownCalled: boolean = false
   showselectedItem: any = {};

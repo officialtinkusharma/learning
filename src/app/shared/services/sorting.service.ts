@@ -34,5 +34,6 @@ export class SortingService {
         return originData
       }
     })
+    return sortingType ? data : originData;
   }
 }

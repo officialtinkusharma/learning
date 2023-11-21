@@ -5,28 +5,31 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TableRowComponent } from './table-tree/table-row/table-row.component';
 import { TableTreeComponent } from './table-tree/table-tree.component';
-import { SingleSelectDropdownComponent } from './singleselect-dropdown/singleselect-dropdown.component';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from './shared/shared.module';
 import { CustomTableModule } from './custom-table/custom-table.module';
 import { TestingCellrendererComponent } from './custom-table/testing-cellrenderer/testing-cellrenderer.component';
+import { MultiselectDropdownComponent } from './multiselect-dropdown/multiselect-dropdown.component';
+import { MultiselectGroupComponent } from './multiselect-group/multiselect-group.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TableRowComponent,
     TableTreeComponent,
-    SingleSelectDropdownComponent,
-    TestingCellrendererComponent
+
+    TestingCellrendererComponent,
+    MultiselectDropdownComponent,
+    MultiselectGroupComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     SharedModule,
-    CustomTableModule
+    CustomTableModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

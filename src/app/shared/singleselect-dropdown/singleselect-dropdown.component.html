@@ -19,15 +19,11 @@
             </li>
         </ul>
         <ul class="dataList" *ngIf="(dropdownValues?.length>0)">
-            <li class="data-option" *ngFor="let dropdownvalue of dropdownValues" (click)="selectData(dropdownvalue)"
+            <li class="data-option" *ngFor="let dropdownvalue of dropdownValues"
                 [ngClass]="[dropdownvalue[selectSettings.idField] ==showselectedItem[selectSettings.idField]?'bg-primary':'',dropdownvalue[selectSettings.textField]==listTextForDisable&& listItemDisable?'disabledClass':'']">
-                {{dropdownvalue[selectSettings.textField]}}
-                <span class="tooltip"
-                    *ngIf="dropdownvalue[selectSettings.textField]==listTextForDisable&& listItemDisable">
-                    <!-- <i-feather class="feather_icon_11 ms-2" name="info"></i-feather> -->
-                    <span class="tooltiptext">Another contact exists as Org SPOC for this
-                        organization. Remove them as SPOC to set this contact as the new SPOC.</span>
-                </span>
+                <ng-container [ngTemplateOutlet]="optionTemplate?optionTemplate:defaultOption"
+                    [ngTemplateOutletContext]="{dropdownvalue:dropdownvalue}">
+                </ng-container>
             </li>
         </ul>
         <div *ngIf="(dropdownValues?.length==0)">
@@ -35,3 +31,12 @@
         </div>
     </div>
 </div>
+<ng-template #defaultOption let-dropdownvalue="dropdownvalue">
+
+    <div (click)="selectData(dropdownvalue)">{{dropdownvalue[selectSettings.textField]}}</div>
+    <!-- <span class="tooltip" *ngIf="dropdownvalue[selectSettings.textField]==listTextForDisable&& listItemDisable">
+  
+        <span class="tooltiptext">Another contact exists as Org SPOC for this
+            organization. Remove them as SPOC to set this contact as the new SPOC.</span>
+    </span> -->
+</ng-template>

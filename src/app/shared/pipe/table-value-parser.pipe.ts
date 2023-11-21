@@ -1,15 +1,13 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'tableValueParser'
+  name: 'tableValueParser',
 })
 export class TableValueParserPipe implements PipeTransform {
-
   transform(row: any, col: any): any {
     if (!row || !col) {
       return row;
-    }
-    else {
+    } else {
       let colSplit = col.split('.');
       let value = row;
       colSplit.forEach((element: string) => {
@@ -20,5 +18,4 @@ export class TableValueParserPipe implements PipeTransform {
       return value;
     }
   }
-
 }

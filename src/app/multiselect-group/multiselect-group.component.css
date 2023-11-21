@@ -1,0 +1,190 @@
+.multiDropdown input[type='checkbox'] {
+    height: 9px;
+    width: 9px;
+    outline: 1.5px solid #262626;
+    border-radius:2px;
+    appearance: inherit;
+}
+
+.multiDropdown input[type="checkbox"]:checked {
+    background-color: #000000;
+}
+
+.multiDropdown input[type="checkbox"]::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    display: grid;
+    transform: scale(0);
+    transition: 120ms transform ease-in-out;
+    box-shadow: inset 1em 1em white;
+    transform-origin: bottom left;
+    clip-path: polygon(14% 45%, 0% 61%, 47% 100%, 100% 16%, 78% 0%, 43% 70%);
+}
+
+.multiDropdown input[type="checkbox"]:checked::before {
+    transform: scale(1);
+}
+
+:host ::ng-deep.form-control {
+    line-height: 0.5 !important;
+}
+
+.multiselect_dropdown {
+    position: relative;
+    width: 100%;
+    cursor: default;
+}
+
+.label {
+    padding-left: 0.2rem;
+}
+
+.multiDropdown {
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    padding: 0px 0px 3px 0px !important;
+    background: white !important;
+    border-radius: 4px !important;
+    margin-top: 0px !important;
+    box-shadow: 2px 4px 4px #00000029;
+    border: 1px solid #CDCDCD;
+}
+.scrollList{
+    max-height: 150px;
+    min-height: 20px;
+    overflow: auto;
+}
+.scrollList::-webkit-scrollbar-track {
+    border-radius: 6px;
+    -webkit-box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.3);
+    background-color: #F5F6F7;
+}
+
+.scrollList::-webkit-scrollbar {
+    width: 6px;
+    border-radius: 6px;
+    background-color: #D8D8D8;
+}
+
+.scrollList::-webkit-scrollbar-thumb {
+    background-color: #95989a;
+    border-radius: 6px;
+}
+
+.multiDropdown ul {
+    /* margin:0px 9px; */
+    padding: 0px;
+    list-style-type: none;
+}
+
+.multiDropdown ul li {
+    line-height: 2;
+    cursor: pointer;
+    padding-left: 9px;
+    overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 10px;
+    line-height:15px;
+    font-weight: 400;
+}
+
+.multiDropdown ul li:hover {
+    background-color: aliceblue;
+}
+
+.multiDropdown input[type="checkbox"] {
+    vertical-align: sub;
+    margin-right: 2px;
+}
+
+.chips {
+    background-color: aliceblue;
+    border: solid 1px aliceblue;
+    padding: 1px;
+    margin-right: 2px;
+    font-size:10px;
+}
+
+.placeholder_multiselect {
+    vertical-align: middle;
+    /* padding: 0px 0px 2px 2px; */
+    width: 100%;
+    color: #95989a;
+    font-size: 10px;
+}
+
+.dropdown_group {
+    margin-top: 0.75rem;
+    margin-left: 9px;
+    margin-bottom: 0.75rem;
+}
+
+.multiDropdown hr {
+    border-top: 1.5px solid !important;
+    margin: 10px 0px 10px 0px !important;
+}
+
+.chip_container {
+    position: relative;
+    /* padding: 6px 2px 3px 2px !important; */
+    padding: 0.4375rem 2.25rem 0.4375rem 0.75rem !important;
+    height: 28px;
+    width: 100%;
+    border: 1.1px solid #afafaf;
+    background: white;
+    border-radius: 5px;
+}
+
+.toggler {
+    position: absolute;
+    right: 7px;
+    top: 2px;
+    cursor: pointer;
+    color: gray;
+    width: 14px !important;
+    height: 14px !important;
+}
+.noData{
+    margin: 7px 0px 0px 0px;
+    text-align: center;
+}
+.item_count{
+    background: antiquewhite;
+    padding:2px;
+    border-radius:50%;
+    line-height: 1;
+    position: absolute;
+    right:20px;
+    min-width:16px;
+    text-align: center;
+}
+.disable{
+    pointer-events: none;
+    background-color: #E4E4E4;
+    border-radius: 5px;
+    border:1.2px solid #afafaf
+}
+.disable .chip_container{
+    background-color: #E4E4E4;
+    pointer-events: none;
+}
+.chips_elipsis{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-top:0px;
+}
+.crossSign{width:12px;}
+.searchBox{
+    border-bottom:1px solid lightgray;
+    padding-bottom:5px;
+}
+.searchInput{
+    width: 90%;
+    margin-left: 5%;
+    margin-top: 5px;
+    height: 22px;
+}
