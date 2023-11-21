@@ -308,6 +308,14 @@ export class CustomTableComponent implements OnInit, OnChanges {
       element.showFilterForm = false;
     });
     col.showFilterForm = true;
+    this.applyFilter(
+      col.fieldName,
+      col.firstRule,
+      col.firstValue,
+      col.condition,
+      col.secondRule,
+      col.secondValue
+    );
   }
 
   findDataType(header: any): any {
