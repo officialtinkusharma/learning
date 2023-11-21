@@ -228,53 +228,6 @@
             </div>
           </form>
         </ng-container>
-        <!-- <i-feather name="filter"
-                    *ngIf="col.firstValue||col.firstRule=='blank'||col.firstRule=='not_blank'"></i-feather>
-                <span *ngIf="sortedCol==col.field">
-                    <i-feather name="arrow-up" *ngIf="sortingType=='asc'"></i-feather>
-                    <i-feather name="arrow-down" *ngIf="sortingType=='des'"></i-feather>
-                </span>
-                <i-feather class="filter" name="menu" (click)="$event.stopPropagation();" id="dropdownBasic1"
-                    ngbDropdownToggle></i-feather> -->
-        <!-- <div ngbDropdownMenu aria-labelledby="dropdownBasic1" (click)="$event.stopPropagation();">
-                    <form class="filterForm">
-                        <div class="form-group">
-                            <select class="form-control form-control-sm" name="firstRule" [(ngModel)]="col.firstRule"
-                                (change)="applyFilter(col.field,col.firstRule,col.firstValue,col.condition,col.secondRule,col.secondValue)">
-                                <option value="">Select</option>
-                                <option
-                                    *ngFor="let opt of findDataType(col.field)=='string'?stringFilterList:numberFilterList"
-                                    [value]="opt.id">
-                                    {{opt.name}}</option>
-                            </select>
-                            <input [attr.type]="findDataType(col.field)" class="form-control form-control-sm"
-                                *ngIf="!(col.firstRule=='blank'||col.firstRule=='not_blank')" name="firstValue"
-                                [(ngModel)]="col.firstValue"
-                                (keyup)="applyFilter(col.field,col.firstRule,col.firstValue,col.condition,col.secondRule,col.secondValue)">
-                        </div>
-                        <div class="filter-group"
-                            *ngIf="col.firstValue||col.firstRule=='blank'||col.firstRule=='not_blank'">
-                            <input type="radio" name="logical" id="condition" [(ngModel)]="col.condition" value="or"
-                                (change)="applyFilter(col.field,col.firstRule,col.firstValue,col.condition,col.secondRule,col.secondValue)"><label
-                                for="logical">OR</label>
-                            <input type="radio" name="logical" id="condition" [(ngModel)]="col.condition" value="and"
-                                (change)="applyFilter(col.field,col.firstRule,col.firstValue,col.condition,col.secondRule,col.secondValue)">
-                            <label for="logical">AND</label>
-                            <select class="form-control form-control-sm" name="secondRule" [(ngModel)]="col.secondRule"
-                                (change)="applyFilter(col.field,col.firstRule,col.firstValue,col.condition,col.secondRule,col.secondValue)">
-                                <option value="">Select</option>
-                                <option
-                                    *ngFor="let opt of findDataType(col.field)=='string'?stringFilterList:numberFilterList"
-                                    [value]="opt.id">
-                                    {{opt.name}}</option>
-                            </select>
-                            <input [attr.type]="findDataType(col.field)" class="form-control form-control-sm"
-                                *ngIf="!(col.secondRule=='blank'||col.secondRule=='not_blank')" name="secondValue"
-                                [(ngModel)]="col.secondValue"
-                                (keyup)="applyFilter(col.field,col.firstRule,col.firstValue,col.condition,col.secondRule,col.secondValue)">
-                        </div>
-                    </form>
-                </div> -->
       </th>
     </tr>
   </thead>
