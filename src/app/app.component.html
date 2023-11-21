@@ -1,0 +1,28 @@
+<app-custom-table
+  [colDefs]="colDef"
+  [rowData]="rowData"
+  (sendSelectedRow)="getSelectedRow($event)"
+></app-custom-table>
+<!-- <div class="d-flex">
+    <div style="width: 300px;">
+        <app-singleselect-dropdown [optionTemplate]="optionTemplate" [placeholderName]="'select'"
+            [optionsList]="organisation" [selectedItem]="selectedItem" (selectItem)="updateSingleSelect($event)">
+            <ng-template #optionTemplate let-data="dropdownvalue">
+                <div style="pointer-events: none;">{{data.name}}</div>
+            </ng-template>
+        </app-singleselect-dropdown>
+    </div>
+
+    <div style="width: 300px;">
+        <app-singleselect-dropdown [placeholderName]="'select'" [optionsList]="organisation"
+            [selectedItem]="selectedItem" (selectItem)="updateSingleSelect($event)"></app-singleselect-dropdown>
+    </div>
+    <div style="width: 300px;">
+        <app-singleselect-dropdown [placeholderName]="'select'" [optionsList]="organisation"
+            [selectedItem]="selectedItem" (selectItem)="updateSingleSelect($event)"></app-singleselect-dropdown>
+    </div>
+    <div style="width: 300px;">
+        <app-singleselect-dropdown [placeholderName]="'select'" [optionsList]="organisation"
+            [selectedItem]="selectedItem" (selectItem)="updateSingleSelect($event)"></app-singleselect-dropdown>
+    </div>
+</div> -->

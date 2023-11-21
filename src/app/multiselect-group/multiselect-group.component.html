@@ -1,0 +1,53 @@
+<!-- <div class="multiselect_dropdown" [ngClass]="disable?'disable':''">
+
+    <div class="chip_container d-flex align-items-center" [style.height.px]="inputHeight" (click)="toggleDropdown()">
+        <div class="placeholder_multiselect chips_elipsis" *ngIf="selectedLength == 0">{{placeholder}}</div>
+        <div class="chips_elipsis w-75" *ngIf="selectedLength != 0">
+            <ng-container *ngFor="let group of groups; let i=index;">
+                <ng-container *ngIf="selectedItems[group]?.length > 0">
+                    <ng-container *ngFor="let item of selectedItems[group]">
+                        <span class="chips">{{item.name}} <a (click)="removeItem($event,item,group)">
+                                <i-feather class="crossSign" name="x"></i-feather></a>
+                        </span>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+        </div>
+        <span class="item_count" *ngIf="selectedLength > 0">
+            {{selectedLength}}
+        </span>
+
+        <a *ngIf="showDropdown">
+            <i-feather class="toggler" name="chevron-up"></i-feather>
+        </a>
+        <a *ngIf="!showDropdown">
+            <i-feather class="toggler" name="chevron-down"></i-feather>
+        </a>
+
+    </div>
+    <div class="form-control form-control-sm multiDropdown" *ngIf="showDropdown">
+        <div class="searchBox">
+            <input type="text" class="searchInput form-control form-control-sm" [(ngModel)]="searchParam"
+                (click)="$event.stopPropagation()" (keyup)="searchData()" placeholder="Search Data">
+        </div>
+        <div class="scrollList">
+            <ng-container *ngIf="groups.length>0 else noDataTemplate">
+                <ng-container *ngFor="let group of groups; let i= index;">
+                    <p class="dropdown_group" *ngIf="data[group].length">{{group.split('_').join(' ') | titlecase}}</p>
+                    <ul *ngIf="data[group].length>0">
+                        <li class="d-flex align-items-center" (click)="updateSelectedItems(data, $event,group)"
+                            *ngFor="let data of data[group]">
+                            <input type="checkbox" id="{{data?.id}}" [checked]="data.isSelected">
+                            <span class="w-100px label">{{data?.name || 'null'}}</span>
+                        </li>
+                    </ul>
+                    <hr *ngIf="i != groups.length-1">
+                </ng-container>
+            </ng-container>
+            <ng-template #noDataTemplate>
+                <p class="noData">No Data Avaliable</p>
+            </ng-template>
+
+        </div>
+    </div>
+</div> -->

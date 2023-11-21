@@ -1,0 +1,42 @@
+<div class="acsingleselect" OutsideClickClose [ngClass]="disabledField==true?'disableselect':''"
+    (clickOutSide)="closeDropdown($event)">
+    <div class="singleSelect" (click)="opendropdown()">
+        <input type="text" class="selecteditem form-control" [(ngModel)]="showselectedItem[selectSettings.textField]"
+            #selectedName="ngModel" [placeholder]="placeholderName" [ngStyle]="{'height':heightPx+'px'}"
+            [required]="requiredField" readonly>
+        <div class="togglebutton">
+            <span class="dropdown-down" *ngIf="!showdropdown"></span>
+            <span class="dropdown-up" *ngIf="showdropdown"></span>
+        </div>
+    </div>
+    <div class="text-danger small"
+        *ngIf="(selectedName.touched || selectedName.dirty) && selectedName.errors?.['required']">
+        This field is manadatory.</div>
+    <div class="dropdown-list" *ngIf="showdropdown">
+
+        <ul class="search_input" *ngIf="searchEnable && (optionsList?.length>0)">
+            <li><input type="text" placeholder="Search..." (keyup)="searchdata($event)">
+            </li>
+        </ul>
+        <ul class="dataList" *ngIf="(dropdownValues?.length>0)">
+            <li class="data-option" *ngFor="let dropdownvalue of dropdownValues"
+                [ngClass]="[dropdownvalue[selectSettings.idField] ==showselectedItem[selectSettings.idField]?'bg-primary':'',dropdownvalue[selectSettings.textField]==listTextForDisable&& listItemDisable?'disabledClass':'']">
+                <ng-container [ngTemplateOutlet]="optionTemplate?optionTemplate:defaultOption"
+                    [ngTemplateOutletContext]="{dropdownvalue:dropdownvalue}">
+                </ng-container>
+            </li>
+        </ul>
+        <div *ngIf="(dropdownValues?.length==0)">
+            No Data To Select
+        </div>
+    </div>
+</div>
+<ng-template #defaultOption let-dropdownvalue="dropdownvalue">
+
+    <div (click)="selectData(dropdownvalue)">{{dropdownvalue[selectSettings.textField]}}</div>
+    <!-- <span class="tooltip" *ngIf="dropdownvalue[selectSettings.textField]==listTextForDisable&& listItemDisable">
+  
+        <span class="tooltiptext">Another contact exists as Org SPOC for this
+            organization. Remove them as SPOC to set this contact as the new SPOC.</span>
+    </span> -->
+</ng-template>
