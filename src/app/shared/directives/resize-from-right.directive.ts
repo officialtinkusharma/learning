@@ -29,11 +29,6 @@ export class ResizeFromRightDirective implements OnInit {
       if (!this.dragging) {
         return;
       }
-      console.log(
-        event.clientX,
-        el.nativeElement.offsetLeft,
-        el.nativeElement.clientX
-      );
       if (event.clientX > el.nativeElement.offsetLeft) {
       }
       let divStyle = window.getComputedStyle(el.nativeElement, undefined);

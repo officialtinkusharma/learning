@@ -34,7 +34,7 @@ export class TimePickerComponent implements OnInit {
     let second = date.getSeconds();
     if (hour > 12) {
       let newhour = hour - 12;
-      console.log(newhour);
+      // console.log(newhour);
       this.hh = newhour < 10 ? `0${newhour}` : `${newhour}`;
       this.timeset = 'PM';
     } else {
