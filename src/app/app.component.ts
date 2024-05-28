@@ -108,8 +108,7 @@ export class AppComponent implements AfterViewInit, OnInit {
   getSelectedRow(_event: any) {}
 
   getData() {
-    let id = document.getElementById('textBox');
-    console.log(id);
+    // let id = document.getElementById('textBox');
   }
   selectSettings: signleSelectDropdownSettings = {
     idField: 'id',

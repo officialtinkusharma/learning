@@ -91,9 +91,6 @@ export class SingleSelectDropdownComponent
           typeof item == 'boolean'
       );
     }
-    if (_changes?.['selectSettings']?.currentValue) {
-      this.selectSettings = { ...this.defaultSetting, ...this.selectSettings };
-    }
   }
   showSingle: boolean = false;
   blurSelect = false;
