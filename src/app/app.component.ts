@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { TableTreeComponent } from './table-tree/table-tree.component';
 import { TestingCellrendererComponent } from './custom-table/testing-cellrenderer/testing-cellrenderer.component';
+import { signleSelectDropdownSettings } from './shared/singleselect-dropdown/singleselect.model';
 
 @Component({
   selector: 'app-root',
@@ -110,11 +111,12 @@ export class AppComponent implements AfterViewInit, OnInit {
     let id = document.getElementById('textBox');
     console.log(id);
   }
-  selectSettings = {
+  selectSettings: signleSelectDropdownSettings = {
     idField: 'id',
     textField: 'name',
-    selectType: 'idField',
+    selectType: 'unObject',
   };
+  disableOptionList = [4, 6, 8, 1];
   count = 0;
   addRowData() {
     let newRow = [

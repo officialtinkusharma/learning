@@ -18,6 +18,7 @@ import {
   NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
+import { signleSelectDropdownSettings } from './singleselect.model';
 
 @Component({
   selector: 'app-singleselect-dropdown',
@@ -40,7 +41,7 @@ import {
 export class SingleSelectDropdownComponent
   implements OnInit, OnChanges, ControlValueAccessor
 {
-  defaultSetting: any = {
+  defaultSetting: signleSelectDropdownSettings = {
     idField: 'id',
     textField: 'name',
     heightPx: 24,
@@ -48,13 +49,12 @@ export class SingleSelectDropdownComponent
     searchEnable: true,
     selectType: 'object',
     noDataAvailableText: 'No Data To Select',
-    requiredMessage: 'This field is required',
   };
   @Input() optionsList: any = [];
   @Input() disabledField = false;
-  @Input() requiredField = false;
+  @Input() disableOptionList: any[] = [];
   @Input()
-  public set singleSelectSettings(value: any) {
+  public set singleSelectSettings(value: signleSelectDropdownSettings) {
     if (value) {
       this.selectSettings = { ...this.defaultSetting, ...value };
     } else {

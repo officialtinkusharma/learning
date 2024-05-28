@@ -26,6 +26,7 @@
       name="singleselect"
       [(ngModel)]="singleselect"
       #singleselect1="ngModel"
+      [disableOptionList]="disableOptionList"
       required
       (selectItem)="updateSingleSelect($event)"
     >

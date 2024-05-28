@@ -70,7 +70,7 @@
           *ngFor="let dropdownvalue of dropdownValues"
           [ngClass]="[
             dropdownvalue == showselectedItem ? 'bg-primary' : '',
-            dropdownvalue?.disabled ? 'disabledClass' : ''
+            disableOptionList.includes(dropdownvalue) ? 'disabledClass' : ''
           ]"
         >
           <ng-container
