@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class TableValueParserPipe implements PipeTransform {
   transform(row: any, col: any): any {
     if (!row || !col) {
-      return row;
+      return;
     } else {
       let colSplit = col.split('.');
       let value = row;

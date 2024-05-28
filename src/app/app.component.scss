@@ -1,3 +1,53 @@
 .d-flex {
     display: flex;
+    // width:200px;
+}
+.div1{
+    background-color: green;
+    width:100%
+}
+.div2{
+    width:200px;
+    background-color: yellow;
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-item {
+    flex: 1 5 50%;
+    height: 600px;
+    border: 1px solid black;
+}
+
+.grabber {
+    width: 10px;
+}
+
+.grabber:hover {
+    cursor: e-resize;
+}
+
+.side-panel {
+    background-color: lightgray;
+}
+// code editor
+
+.code-editor{
+border: 5px solid red;
+}
+.mainWindow{
+    display: flex;
+    background-color: black;
+    height:200px;
+}
+.mainWindow .lineNumber{
+    width:35px;
+}
+.mainWindow .textBox{
+    overflow: auto;
+    width:100%;
+    color:white;
 }

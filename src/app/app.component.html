@@ -1,28 +1,99 @@
-<app-custom-table
+<!-- <app-custom-table
   [colDefs]="colDef"
   [rowData]="rowData"
+  [tableOptions]="tableOptions"
   (sendSelectedRow)="getSelectedRow($event)"
-></app-custom-table>
-<!-- <div class="d-flex">
-    <div style="width: 300px;">
-        <app-singleselect-dropdown [optionTemplate]="optionTemplate" [placeholderName]="'select'"
-            [optionsList]="organisation" [selectedItem]="selectedItem" (selectItem)="updateSingleSelect($event)">
-            <ng-template #optionTemplate let-data="dropdownvalue">
-                <div style="pointer-events: none;">{{data.name}}</div>
-            </ng-template>
-        </app-singleselect-dropdown>
-    </div>
+></app-custom-table> -->
+<form class="d-flex" #dataForm="ngForm">
+  <!-- <div style="width: 300px">
+    <app-singleselect-dropdown
+      [optionTemplate]="optionTemplate"
+      [placeholderName]="'select'"
+      [optionsList]="organisation"
+      [selectedItem]="selectedItem"
+      (selectItem)="updateSingleSelect($event)"
+    >
+      <ng-template #optionTemplate let-data="dropdownvalue">
+        <div style="pointer-events: none">{{ data.name }}</div>
+      </ng-template>
+    </app-singleselect-dropdown>
+  </div> -->
 
-    <div style="width: 300px;">
-        <app-singleselect-dropdown [placeholderName]="'select'" [optionsList]="organisation"
-            [selectedItem]="selectedItem" (selectItem)="updateSingleSelect($event)"></app-singleselect-dropdown>
+  <div style="width: 300px">
+    <app-singleselect-dropdown
+      [optionsList]="organisation"
+      [singleSelectSettings]="selectSettings"
+      name="singleselect"
+      [(ngModel)]="singleselect"
+      #singleselect1="ngModel"
+      required
+      (selectItem)="updateSingleSelect($event)"
+    >
+      <ng-template #optionTemplateRef let-data="dropdownvalue">
+        <div style="pointer-events: none">{{ data }} 876</div>
+      </ng-template>
+      lkjhgcfxdzs
+      <div>aljdfl al;jfasdjj sdljd</div>
+    </app-singleselect-dropdown>
+    <div
+      class="text-danger error_message small"
+      *ngIf="(singleselect1?.touched || singleselect1?.dirty) && singleselect1?.errors?.['required']"
+    >
+      this field is required
     </div>
-    <div style="width: 300px;">
-        <app-singleselect-dropdown [placeholderName]="'select'" [optionsList]="organisation"
-            [selectedItem]="selectedItem" (selectItem)="updateSingleSelect($event)"></app-singleselect-dropdown>
-    </div>
-    <div style="width: 300px;">
-        <app-singleselect-dropdown [placeholderName]="'select'" [optionsList]="organisation"
-            [selectedItem]="selectedItem" (selectItem)="updateSingleSelect($event)"></app-singleselect-dropdown>
-    </div>
+  </div>
+  <!-- <div style="width: 300px">
+    <app-singleselect-dropdown
+      [placeholderName]="'select'"
+      [optionsList]="organisation"
+      [selectedItem]="selectedItem"
+      (selectItem)="updateSingleSelect($event)"
+    ></app-singleselect-dropdown>
+  </div>
+  <div style="width: 300px">
+    <app-singleselect-dropdown
+      [placeholderName]="'select'"
+      [optionsList]="organisation"
+      [selectedItem]="selectedItem"
+      (selectItem)="updateSingleSelect($event)"
+    ></app-singleselect-dropdown>
+  </div> -->
+</form>
+<!-- 
+<div class="d-flex">
+  <div class="div1">lkjalsdfjl;sadf</div>
+  <div class="div2" appResizeFromRight>lakjdfljdskl</div>
 </div> -->
+<!-- <div class="container-fluid mt-1">
+  <div class="flex-container">
+    <div class="flex-item" #firstElement>
+      <h2>Flex container-1</h2>
+    </div>
+    <div
+      class="grabber"
+      appResize
+      [leftResize]="firstElement"
+      [rightResize]="rightElement"
+    ></div>
+    <div class="flex-item" #rightElement>
+      <h2>Flex container-2</h2>
+    </div>
+  </div>
+</div> -->
+
+<!-- <div class="code-editor">
+  <div class="mainWindow">
+    <div class="lineNumber"></div>
+    <div
+      class="textBox"
+      id="textBox"
+      (keypress)="getData()"
+      contenteditable="true"
+    >
+      lakjdfjlsjlj ajsldj
+    </div>
+    <div class="smallDisp"></div>
+  </div>
+</div> -->
+<!-- <app-time-picker></app-time-picker> -->
+<!-- <button (click)="addRowData()">Add Row</button> -->

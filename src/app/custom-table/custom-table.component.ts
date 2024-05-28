@@ -8,6 +8,7 @@ import {
   Output,
   SimpleChanges,
   ViewChild,
+  ViewEncapsulation,
 } from '@angular/core';
 import { TableValueParserPipe } from '../shared/pipe/table-value-parser.pipe';
 import { SortingService } from '../shared/services/sorting.service';
@@ -18,6 +19,7 @@ import { FilterService } from '../shared/services/filter.service';
   templateUrl: './custom-table.component.html',
   styleUrls: ['./custom-table.component.scss'],
   providers: [TableValueParserPipe],
+  encapsulation: ViewEncapsulation.ShadowDom,
 })
 export class CustomTableComponent implements OnInit, OnChanges {
   constructor(
@@ -26,6 +28,10 @@ export class CustomTableComponent implements OnInit, OnChanges {
     private filterService: FilterService,
     private el: ElementRef
   ) {}
+
+  selectSettings = {
+    heightPx: 15,
+  };
   ngOnChanges(changes: SimpleChanges): void {
     if (changes?.['rowData']?.currentValue) {
       this.rowData.forEach((element: any, index: number) => {
@@ -34,7 +40,7 @@ export class CustomTableComponent implements OnInit, OnChanges {
       });
       this.duplicateRowData = JSON.parse(JSON.stringify(this.rowData));
     }
-    if (changes?.['colDefs'].currentValue) {
+    if (changes?.['colDefs']?.currentValue) {
       this.colDefs.forEach((element: any, index: number) => {
         element.colId = index + 1;
         element.firstRule = '=';
@@ -55,7 +61,10 @@ export class CustomTableComponent implements OnInit, OnChanges {
   @Input() rowData: any = [];
   @Input() colDefs: any = [];
   @Input() iconColor = '#dee1e6';
-  rowDraggable: boolean = false;
+  @Input() rowDraggable: boolean = true;
+  @Input() tableOptions: any;
+  @Input() height: any = '350px';
+
   @Output() sendSelectedRow = new EventEmitter();
   @ViewChild('customTable', { read: ElementRef }) customTable: any;
 
@@ -114,15 +123,16 @@ export class CustomTableComponent implements OnInit, OnChanges {
       ...col?.rendererParam,
       value: this.tableValueParserPipe.transform(rowData, col?.fieldName),
       data: rowData,
+      context: this.tableOptions?.context,
     };
     return body;
   }
-  tableDataSorting(headerName: any) {
-    if (!this.sortingEnable) {
+  tableDataSorting(header: any) {
+    if (!header?.sortingEnable) {
       return;
     }
-    if (headerName != this.sortedCol) {
-      this.sortedCol = headerName;
+    if (header?.fieldName != this.sortedCol) {
+      this.sortedCol = header?.fieldName;
       this.sortingType = 'asc';
     } else {
       this.sortingType == 'asc'
@@ -138,12 +148,12 @@ export class CustomTableComponent implements OnInit, OnChanges {
     if (
       this.rowData.every(
         (val: any) =>
-          typeof this.tableValueParserPipe.transform(val, headerName) ==
+          typeof this.tableValueParserPipe.transform(val, header?.fieldName) ==
           'number'
       )
     ) {
       this.rowData = this.sortingService.numberSorting(
-        headerName,
+        header?.fieldName,
         this.rowData,
         this.sortingType,
         newRowData
@@ -151,14 +161,14 @@ export class CustomTableComponent implements OnInit, OnChanges {
     } else if (
       this.rowData.every(
         (val: any) =>
-          typeof this.tableValueParserPipe.transform(val, headerName) ==
+          typeof this.tableValueParserPipe.transform(val, header?.fieldName) ==
           'string'
       )
     ) {
       this.rowData = JSON.parse(
         JSON.stringify(
           this.sortingService.stringSorting(
-            headerName,
+            header?.fieldName,
             this.rowData,
             this.sortingType,
             newRowData
@@ -327,7 +337,6 @@ export class CustomTableComponent implements OnInit, OnChanges {
       )
     ) {
       header.dataType = 'number';
-      // return 'number';
     } else if (
       this.rowData.every(
         (val: any) =>
@@ -340,5 +349,8 @@ export class CustomTableComponent implements OnInit, OnChanges {
   }
   selectFilterRule(event: any, field: any) {
     field = event.name;
+  }
+  trackByMethod(_index: number, data: any) {
+    return data.rowId;
   }
 }

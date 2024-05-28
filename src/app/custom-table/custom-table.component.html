@@ -1,270 +1,293 @@
-<table
-  class="table mb-0 text-dark border bg-white"
-  #customTable
-  id="customTable"
->
-  <thead class="table-dark">
-    <tr>
-      <th
-        *ngFor="let col of colDefs; let i = index"
-        [ngStyle]="{
-          width: col?.width ? col.width + 'px' : 100 / colDefs.length + '%'
-        }"
-        class="headerClass"
-      >
-        <span class="checkBox" *ngIf="col?.headerSelection"
-          ><input type="checkbox"
-        /></span>
-        <div class="tableHeader" (click)="tableDataSorting(col?.fieldName)">
-          {{ col.headerName }}
-          <ng-container
-            *ngIf="
-              col.firstValue ||
-              col.firstRule == 'blank' ||
-              col.firstRule == 'not_blank'
-            "
+<div class="table_wrapper border" [ngStyle]="{ height: height }">
+  <table class="table mb-0 text-dark bg-white" #customTable id="customTable">
+    <thead class="table-dark">
+      <tr>
+        <th
+          appResizeFromLeft
+          [resizableGrabWidth]="2"
+          [resizeCursor]="'e-resize'"
+          *ngFor="let col of colDefs; let i = index"
+          class="headerClass"
+        >
+          <div
+            class="tableHeader"
+            [ngClass]="col?.resize ? 'tableHeaderResize' : ''"
+            (click)="tableDataSorting(col)"
           >
-            <svg
-              viewBox="0 0 24 24"
-              width="24"
-              height="24"
-              stroke="iconColor"
-              stroke-width="2"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="css-i6dzq1"
-            >
-              <polygon
-                points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"
-              ></polygon>
-            </svg>
-          </ng-container>
-          <span *ngIf="sortedCol == col?.fieldName">
-            <ng-container *ngIf="sortingType == 'asc'">
-              <svg
-                viewBox="0 0 24 24"
-                width="24"
-                height="24"
-                stroke="iconColor"
-                stroke-width="2"
-                fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="css-i6dzq1"
-              >
-                <line x1="12" y1="19" x2="12" y2="5"></line>
-                <polyline points="5 12 12 5 19 12"></polyline>
-              </svg>
-            </ng-container>
-            <ng-container *ngIf="sortingType == 'des'">
-              <svg
-                viewBox="0 0 24 24"
-                width="24"
-                height="24"
-                stroke="iconColor"
-                stroke-width="2"
-                fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="css-i6dzq1"
-              >
-                <line x1="12" y1="5" x2="12" y2="19"></line>
-                <polyline points="19 12 12 19 5 12"></polyline>
-              </svg>
-            </ng-container>
-          </span>
-          <ng-container>
-            <span
-              class="filter"
-              (click)="$event.stopPropagation(); closeOtherFilter(col)"
-            >
-              <svg
-                viewBox="0 0 24 24"
-                width="24"
-                height="24"
-                stroke="#fff"
-                stroke-width="2"
-                fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="css-i6dzq1"
-              >
-                <line x1="3" y1="12" x2="21" y2="12"></line>
-                <line x1="3" y1="6" x2="21" y2="6"></line>
-                <line x1="3" y1="18" x2="21" y2="18"></line>
-              </svg>
-            </span>
-          </ng-container>
-        </div>
-        <ng-container *ngIf="col?.showFilterForm">
-          <form
-            OutsideClickClose
-            class="filterForm"
-            (clickOutSide)="closeFilterPopup($event, col)"
-            (click)="$event.stopPropagation()"
-          >
-            <div class="form-group">
-              <app-singleselect-dropdown
-                [heightPx]="'15'"
-                [optionsList]="
-                  col.dataType == 'string' ? stringFilterList : numberFilterList
-                "
-                (selectItem)="
-                  col.firstRule = $event.id;
-                  applyFilter(
-                    col.fieldName,
-                    col.firstRule,
-                    col.firstValue,
-                    col.condition,
-                    col.secondRule,
-                    col.secondValue
-                  )
-                "
-                [selectedItem]="col.firstRule"
-              ></app-singleselect-dropdown>
-              <input
-                [attr.type]="col.dataType"
-                [(ngModel)]="col.firstValue"
-                class="form-control"
-                placeholder="filter..."
-                *ngIf="
-                  !(col.firstRule == 'blank' || col.firstRule == 'not_blank')
-                "
-                name="firstValue"
-                (keyup)="
-                  applyFilter(
-                    col.fieldName,
-                    col.firstRule,
-                    col.firstValue,
-                    col.condition,
-                    col.secondRule,
-                    col.secondValue
-                  )
-                "
-              />
-            </div>
-            <div
-              class="form-group"
+            <span class="checkBox" *ngIf="col?.headerSelection"
+              ><input type="checkbox"
+            /></span>
+            <div class="headername">{{ col.headerName }}</div>
+            <ng-container
               *ngIf="
                 col.firstValue ||
                 col.firstRule == 'blank' ||
                 col.firstRule == 'not_blank'
               "
             >
-              <input
-                type="radio"
-                name="logical"
-                id="condition"
-                [(ngModel)]="col.condition"
-                value="or"
-                (change)="
-                  applyFilter(
-                    col.fieldName,
-                    col.firstRule,
-                    col.firstValue,
-                    col.condition,
-                    col.secondRule,
-                    col.secondValue
-                  )
-                "
-              /><label for="logical">OR</label>
-              <input
-                type="radio"
-                name="logical"
-                id="condition"
-                [(ngModel)]="col.condition"
-                value="and"
-                (change)="
-                  applyFilter(
-                    col.fieldName,
-                    col.firstRule,
-                    col.firstValue,
-                    col.condition,
-                    col.secondRule,
-                    col.secondValue
-                  )
-                "
-              />
-              <label for="logical">AND</label>
-              <app-singleselect-dropdown
-                [heightPx]="'15'"
-                [optionsList]="
-                  col.dataType == 'string' ? stringFilterList : numberFilterList
-                "
-                (selectItem)="
-                  col.secondRule = $event.id;
-                  applyFilter(
-                    col.fieldName,
-                    col.firstRule,
-                    col.firstValue,
-                    col.condition,
-                    col.secondRule,
-                    col.secondValue
-                  )
-                "
-                [selectedItem]="col.secondRule"
-              ></app-singleselect-dropdown>
-              <input
-                [attr.type]="col.dataType"
-                class="form-control form-control-sm"
-                placeholder="filter..."
-                *ngIf="
-                  !(col.secondRule == 'blank' || col.secondRule == 'not_blank')
-                "
-                name="secondValue"
-                [(ngModel)]="col.secondValue"
-                (keyup)="
-                  applyFilter(
-                    col.fieldName,
-                    col.firstRule,
-                    col.firstValue,
-                    col.condition,
-                    col.secondRule,
-                    col.secondValue
-                  )
-                "
-              />
-            </div>
-          </form>
-        </ng-container>
-      </th>
-    </tr>
-  </thead>
-  <tbody (dragover)="onDragOver($event)">
-    <ng-container *ngFor="let data of rowData; let i = index">
-      <tr
-        class="productRow"
-        [draggable]="rowDraggable"
-        (drop)="onDrop($event, data)"
-        (dragstart)="ondragStart(data)"
-      >
-        <ng-container *ngFor="let col of colDefs; let index = index">
-          <td>
-            <span class="checkBox" *ngIf="col?.checkboxSelection"
-              ><input
-                type="checkbox"
-                [checked]="data?.isSelected"
-                (change)="onSelectRow(data)"
-            /></span>
-            <span id="dd" #dd *ngIf="col?.cellRenderer">
-              <ng-container *ngIf="!showRendererComponentORNot(col, data)">{{
-                showRendererData(col, data)
-              }}</ng-container>
-              <ng-container
-                *ngIf="showRendererComponentORNot(col, data)"
-                appAddRenderer
-                [col]="col"
-                [cellParam]="createParam(col, data)"
+              <svg
+                viewBox="0 0 24 24"
+                width="24"
+                height="24"
+                stroke="iconColor"
+                stroke-width="2"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="css-i6dzq1"
               >
+                <polygon
+                  points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"
+                ></polygon>
+              </svg>
+            </ng-container>
+            <span *ngIf="sortedCol == col?.fieldName">
+              <ng-container *ngIf="sortingType == 'asc'">
+                <svg
+                  viewBox="0 0 24 24"
+                  width="24"
+                  height="24"
+                  stroke="iconColor"
+                  stroke-width="2"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="css-i6dzq1"
+                >
+                  <line x1="12" y1="19" x2="12" y2="5"></line>
+                  <polyline points="5 12 12 5 19 12"></polyline>
+                </svg>
+              </ng-container>
+              <ng-container *ngIf="sortingType == 'des'">
+                <svg
+                  viewBox="0 0 24 24"
+                  width="24"
+                  height="24"
+                  stroke="iconColor"
+                  stroke-width="2"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="css-i6dzq1"
+                >
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <polyline points="19 12 12 19 5 12"></polyline>
+                </svg>
               </ng-container>
             </span>
-            <span *ngIf="!col?.cellRenderer">{{
-              data | tableValueParser : col?.fieldName
-            }}</span>
-          </td>
-        </ng-container>
+            <ng-container *ngIf="col?.filterEnable">
+              <span
+                class="filter"
+                (click)="$event.stopPropagation(); closeOtherFilter(col)"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  width="24"
+                  height="24"
+                  stroke="#fff"
+                  stroke-width="2"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="css-i6dzq1"
+                >
+                  <line x1="3" y1="12" x2="21" y2="12"></line>
+                  <line x1="3" y1="6" x2="21" y2="6"></line>
+                  <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+              </span>
+            </ng-container>
+          </div>
+          <ng-container *ngIf="col?.showFilterForm">
+            <form
+              OutsideClickClose
+              appShowModalPlacement
+              class="filterForm"
+              (clickOutSide)="closeFilterPopup($event, col)"
+              (click)="$event.stopPropagation()"
+            >
+              <div class="form-group">
+                <app-singleselect-dropdown
+                  [singleSelectSettings]="selectSettings"
+                  [optionsList]="
+                    col.dataType == 'string'
+                      ? stringFilterList
+                      : numberFilterList
+                  "
+                  (selectItem)="
+                    col.firstRule = $event.id;
+                    applyFilter(
+                      col.fieldName,
+                      col.firstRule,
+                      col.firstValue,
+                      col.condition,
+                      col.secondRule,
+                      col.secondValue
+                    )
+                  "
+                  [(ngModel)]="col.firstRule"
+                ></app-singleselect-dropdown>
+                <input
+                  [attr.type]="col.dataType"
+                  [(ngModel)]="col.firstValue"
+                  class="form-control"
+                  placeholder="filter..."
+                  *ngIf="
+                    !(col.firstRule == 'blank' || col.firstRule == 'not_blank')
+                  "
+                  name="firstValue"
+                  (keyup)="
+                    applyFilter(
+                      col.fieldName,
+                      col.firstRule,
+                      col.firstValue,
+                      col.condition,
+                      col.secondRule,
+                      col.secondValue
+                    )
+                  "
+                />
+              </div>
+              <div
+                class="form-group"
+                *ngIf="
+                  col.firstValue ||
+                  col.firstRule == 'blank' ||
+                  col.firstRule == 'not_blank'
+                "
+              >
+                <input
+                  type="radio"
+                  name="logical"
+                  id="condition"
+                  [(ngModel)]="col.condition"
+                  value="or"
+                  (change)="
+                    applyFilter(
+                      col.fieldName,
+                      col.firstRule,
+                      col.firstValue,
+                      col.condition,
+                      col.secondRule,
+                      col.secondValue
+                    )
+                  "
+                /><label for="logical">OR</label>
+                <input
+                  type="radio"
+                  name="logical"
+                  id="condition"
+                  [(ngModel)]="col.condition"
+                  value="and"
+                  (change)="
+                    applyFilter(
+                      col.fieldName,
+                      col.firstRule,
+                      col.firstValue,
+                      col.condition,
+                      col.secondRule,
+                      col.secondValue
+                    )
+                  "
+                />
+                <label for="logical">AND</label>
+                <app-singleselect-dropdown
+                  [singleSelectSettings]="selectSettings"
+                  [optionsList]="
+                    col.dataType == 'string'
+                      ? stringFilterList
+                      : numberFilterList
+                  "
+                  (selectItem)="
+                    col.secondRule = $event.id;
+                    applyFilter(
+                      col.fieldName,
+                      col.firstRule,
+                      col.firstValue,
+                      col.condition,
+                      col.secondRule,
+                      col.secondValue
+                    )
+                  "
+                  [(ngModel)]="col.secondRule"
+                ></app-singleselect-dropdown>
+                <input
+                  [attr.type]="col.dataType"
+                  class="form-control form-control-sm"
+                  placeholder="filter..."
+                  *ngIf="
+                    !(
+                      col.secondRule == 'blank' || col.secondRule == 'not_blank'
+                    )
+                  "
+                  name="secondValue"
+                  [(ngModel)]="col.secondValue"
+                  (keyup)="
+                    applyFilter(
+                      col.fieldName,
+                      col.firstRule,
+                      col.firstValue,
+                      col.condition,
+                      col.secondRule,
+                      col.secondValue
+                    )
+                  "
+                />
+              </div>
+            </form>
+          </ng-container>
+        </th>
       </tr>
-    </ng-container>
-  </tbody>
-</table>
+    </thead>
+    <tbody (dragover)="onDragOver($event)">
+      <ng-container
+        *ngFor="let data of rowData; let i = index; trackBy: trackByMethod"
+      >
+        <tr
+          class="productRow"
+          [draggable]="rowDraggable"
+          (drop)="onDrop($event, data)"
+          (dragstart)="ondragStart(data)"
+        >
+          <ng-container *ngFor="let col of colDefs; let index = index">
+            <td>
+              <div class="display_flex">
+                <span class="checkBox" *ngIf="col?.checkboxSelection"
+                  ><input
+                    type="checkbox"
+                    [checked]="data?.isSelected"
+                    (change)="onSelectRow(data)"
+                /></span>
+                <div *ngIf="col?.cellRenderer">
+                  <span
+                    *ngIf="!showRendererComponentORNot(col, data)"
+                    appAddRenderer
+                    [col]="col"
+                    [cellParam]="createParam(col, data)"
+                  ></span>
+                  <ng-container
+                    *ngIf="showRendererComponentORNot(col, data)"
+                    appAddComponentRenderer
+                    [col]="col"
+                    [cellParam]="createParam(col, data)"
+                  >
+                  </ng-container>
+                </div>
+                <div class="columnItem" *ngIf="!col?.cellRenderer">
+                  {{ data | tableValueParser : col?.fieldName }}
+                </div>
+
+                <div
+                  class="tool_tip"
+                  *ngIf="col?.tooltipField || !col?.tootipValueGatter"
+                >
+                  {{ data | tableValueParser : col?.fieldName }}
+                </div>
+              </div>
+            </td>
+          </ng-container>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>

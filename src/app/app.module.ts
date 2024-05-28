@@ -11,6 +11,8 @@ import { CustomTableModule } from './custom-table/custom-table.module';
 import { TestingCellrendererComponent } from './custom-table/testing-cellrenderer/testing-cellrenderer.component';
 import { MultiselectDropdownComponent } from './multiselect-dropdown/multiselect-dropdown.component';
 import { MultiselectGroupComponent } from './multiselect-group/multiselect-group.component';
+import { ResizeDirective } from './resize.directive';
+import { TimePickerComponent } from './time-picker/time-picker.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,8 @@ import { MultiselectGroupComponent } from './multiselect-group/multiselect-group
     TestingCellrendererComponent,
     MultiselectDropdownComponent,
     MultiselectGroupComponent,
+    ResizeDirective,
+    TimePickerComponent,
   ],
   imports: [
     BrowserModule,
