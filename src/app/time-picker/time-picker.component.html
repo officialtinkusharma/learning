@@ -1,0 +1,32 @@
+<!-- <ng-container *ngIf="timeFormate=='24hours'">
+    <div class="d-fex">
+      <app-singleselect-dropdown [optionsList]="" [searchEnable]="false"[selectedItem]=""></app-singleselect-dropdown>
+      <app-singleselect-dropdown [optionsList]="" [searchEnable]="false"[selectedItem]=""></app-singleselect-dropdown>
+     </div>
+</ng-container> -->
+{{ hh }}:{{ mm }}:{{ ss }} {{ timeset }}
+
+<!-- <div class="clock">
+  <div class="innerCircle">
+    <div class="timercircle">
+      <span class="hour_number">1</span>
+      <span class="hour_number">2</span>
+      <span class="hour_number">3</span>
+      <span class="hour_number">4</span>
+      <span class="hour_number">5</span>
+      <span class="hour_number">6</span>
+      <span class="hour_number">7</span>
+      <span class="hour_number">8</span>
+      <span class="hour_number">9</span>
+      <span class="hour_number">10</span>
+      <span class="hour_number">11</span>
+      <span class="hour_number">12</span>
+    </div>
+  </div>
+</div> -->
+<div id="clock">
+  <div id="numberclock"></div>
+</div>
+<div class="hand hour" id="hour"></div>
+<div class="hand minute" id="minute"></div>
+<div class="hand second" id="second"></div>

@@ -73,7 +73,7 @@
 }
 
 .dropdown-down {
-    border: solid #666666;
+    border: solid #26242a;
     border-width: 0px 1.4px 1.4px 0;
     display: inline-block;
     padding: 2.4px;
@@ -147,35 +147,10 @@
 .disableselect .singleSelect .selecteditem {
     background-color: #e4e4e4;
 }
-
-.disabledClass:hover.tooltiptext {
-    visibility: visible;
-}
-
 .disabledClass {
     color: grey;
     pointer-events: none;
-}
-
-.tooltip {
-    position: relative;
-    display: inline-block;
-    opacity: 1 !important;
-}
-
-.tooltip .tooltiptext {
-    visibility: none;
-    width: 200px;
-    font-size: 10px;
-    background-color: #F1F1FE;
-    color: #262626;
-    text-align: left;
-    border-radius: 6px;
-    padding: 10px;
-    box-shadow: 0 5px 10px #1e20251f;
-    position: absolute;
-    top: 5px;
-    z-index: 1;
+    opacity: 0.5;
 }
 
 .dropdown-list .dataList::-webkit-scrollbar-track {
@@ -195,3 +170,11 @@
     background-color: #95989a;
     border-radius: 6px;
 }
+.d_none{
+display:none;
+}
+// .error_message{
+//     position:absolute;
+//     color:red;
+//     font-size: 10px;
+// }

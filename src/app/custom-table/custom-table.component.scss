@@ -1,95 +1,148 @@
-.table {
-    width: 98%;
-    // border: 0.5px solid gary;
-    border-spacing: 0;
-    margin: 10px 1%;
+.table_wrapper {
+  overflow: auto;
+  margin: 10px 1%;
 }
 
-.table-dark th {
-    background-color: #929292;
-    text-align: left;
-    color: #fff;
-    stroke: #fff;
+.table_wrapper .table {
+  // border: 0.5px solid gary;
+  width: 100%;
+  border-spacing: 0;
+  overflow: auto;
 }
 
-td {
-    height: 30px;
-    padding-left: 5px;
-    text-align: left;
-    font-size: 15px;
+.table_wrapper .table-dark th {
+  background-color: #929292;
+  text-align: left;
+  color: #fff;
+  stroke: #fff;
+  position: sticky;
+  top: 0;
 }
 
-td {
-    font-size: 11px;
-    line-height: 12px;
-    vertical-align: middle;
+.table_wrapper td {
+  height: 20px !important;
+  padding-left: 5px;
+  text-align: left;
+  font-size: 10px !important;
+  line-height: 12px;
+  vertical-align: middle;
 }
-
 .border {
-    border: 1px solid gray !important;
+  border: 1px solid gray !important;
 }
 
 tbody tr:nth-child(even) {
-    background-color: #D6EEEE;
+  background-color: #d6eeee;
+}
+
+tbody tr td {
+  max-width: 99%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  position: relative;
 }
 
 tbody tr {
-    border: 5px solid gray;
+  border: 5px solid gray;
 }
 
 tbody :last-child {
-    border-bottom: none;
+  border-bottom: none;
 }
 
 .d-none {
-    display: none;
+  display: none;
 }
 
 .tableHeader {
-    cursor: pointer;
-    padding: 10px 5px 10px 5px;
-    font-size: 12px;
+  cursor: pointer;
+  padding: 10px 5px 10px 5px;
+  font-size: 12px;
+}
+
+.tableHeader .headername {
+  overflow: hidden;
+  display: inline-block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 80%;
 }
 
 .tableHeader svg {
-    width: 12px;
-    height: 12px;
+  width: 12px;
+  height: 12px;
 }
 
 .tableHeader .filter {
-    float: right;
-    cursor: pointer;
-    visibility: hidden;
+  float: right;
+  cursor: pointer;
+  visibility: hidden;
 }
 
 .tableHeader:hover .filter {
-    visibility: visible !important;
+  visibility: visible !important;
 }
-.filterForm{
-    position: absolute;
-    background-color: #fff;
-    min-width:200px;
-    right:0;
-    padding:10px;
-    box-sizing: border-box;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+.filterForm {
+  position: absolute;
+  background-color: #fff;
+  min-width: 200px;
+  right: 0;
+  padding: 10px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
-.headerClass{
-    position:relative;
+
+.headerClass {
+  position: relative;
 }
-.form-group input.form-control{
-    width:96%;
-    margin: 5px 0px;
-    outline: none;
+
+.form-group input.form-control {
+  width: 96%;
+  margin: 5px 0px;
+  outline: none;
 }
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    appearance: none;
-    margin: 0;
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
 }
-.form-group label{
-    color: #1a1a1a;
-    font-size: 15px;
+
+.form-group label {
+  color: #1a1a1a;
+  font-size: 15px;
+}
+
+.tableHeaderResize::after {
+  content: "";
+  position: absolute;
+  height: 40%;
+  border: 1px solid #fff;
+  right: 0%;
+}
+
+.display_flex {
+  display: flex;
+}
+
+td .columnItem {
+  padding-top: 3px;
+  display: inline-block;
+}
+
+td .tool_tip {
+  visibility: hidden;
+  position: absolute;
+}
+
+td:hover .tool_tip {
+  visibility: visible;
+  background: #a1a1a1;
+  top: 30px;
+  padding:0px 10px;
+  border-radius: 5px;
 }

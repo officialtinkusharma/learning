@@ -1,42 +1,95 @@
-<div class="acsingleselect" OutsideClickClose [ngClass]="disabledField==true?'disableselect':''"
-    (clickOutSide)="closeDropdown($event)">
-    <div class="singleSelect" (click)="opendropdown()">
-        <input type="text" class="selecteditem form-control" [(ngModel)]="showselectedItem[selectSettings.textField]"
-            #selectedName="ngModel" [placeholder]="placeholderName" [ngStyle]="{'height':heightPx+'px'}"
-            [required]="requiredField" readonly>
-        <div class="togglebutton">
-            <span class="dropdown-down" *ngIf="!showdropdown"></span>
-            <span class="dropdown-up" *ngIf="showdropdown"></span>
-        </div>
+<div
+  class="acsingleselect"
+  OutsideClickClose
+  [ngClass]="disabledField == true ? 'disableselect' : ''"
+  (clickOutSide)="closeDropdown($event)"
+>
+  <div
+    class="singleSelect"
+    (click)="opendropdown()"
+    [ngClass]="{
+      errorClass: (control?.touched || control?.dirty) && control?.errors
+    }"
+  >
+    <input
+      type="text"
+      class="selecteditem form-control"
+      [(ngModel)]="
+        showSingle
+          ? showselectedItem
+          : showselectedItem[selectSettings.textField]
+      "
+      #singleSelectName="ngModel"
+      [placeholder]="selectSettings.placeholderName"
+      [ngStyle]="{ height: selectSettings.heightPx + 'px' }"
+      readonly
+    />
+    <div class="togglebutton">
+      <span class="dropdown-down" [ngClass]="{ d_none: showdropdown }"></span>
+      <span class="dropdown-up" [ngClass]="{ d_none: !showdropdown }"></span>
     </div>
-    <div class="text-danger small"
-        *ngIf="(selectedName.touched || selectedName.dirty) && selectedName.errors?.['required']">
-        This field is manadatory.</div>
-    <div class="dropdown-list" *ngIf="showdropdown">
-
-        <ul class="search_input" *ngIf="searchEnable && (optionsList?.length>0)">
-            <li><input type="text" placeholder="Search..." (keyup)="searchdata($event)">
-            </li>
-        </ul>
-        <ul class="dataList" *ngIf="(dropdownValues?.length>0)">
-            <li class="data-option" *ngFor="let dropdownvalue of dropdownValues"
-                [ngClass]="[dropdownvalue[selectSettings.idField] ==showselectedItem[selectSettings.idField]?'bg-primary':'',dropdownvalue[selectSettings.textField]==listTextForDisable&& listItemDisable?'disabledClass':'']">
-                <ng-container [ngTemplateOutlet]="optionTemplate?optionTemplate:defaultOption"
-                    [ngTemplateOutletContext]="{dropdownvalue:dropdownvalue}">
-                </ng-container>
-            </li>
-        </ul>
-        <div *ngIf="(dropdownValues?.length==0)">
-            No Data To Select
-        </div>
+  </div>
+  <div class="dropdown-list" id="singleSelectDropdownList" *ngIf="showdropdown">
+    <ul
+      class="search_input"
+      *ngIf="selectSettings.searchEnable && optionsList?.length > 0"
+    >
+      <li>
+        <input
+          type="text"
+          placeholder="Search..."
+          (keyup)="searchdata($event)"
+        />
+      </li>
+    </ul>
+    <ul class="dataList" *ngIf="dropdownValues?.length > 0">
+      <ng-container *ngIf="!showSingle; else unObjectArray">
+        <li
+          class="data-option"
+          *ngFor="let dropdownvalue of dropdownValues"
+          [ngClass]="[
+            dropdownvalue[selectSettings.idField] ==
+            showselectedItem[selectSettings.idField]
+              ? 'bg-primary'
+              : '',
+            dropdownvalue?.disabled ? 'disabledClass' : ''
+          ]"
+        >
+          <ng-container
+            [ngTemplateOutlet]="
+              optionTemplateRef ? optionTemplateRef : defaultOption
+            "
+            [ngTemplateOutletContext]="{ dropdownvalue: dropdownvalue }"
+          >
+          </ng-container>
+        </li>
+      </ng-container>
+      <ng-template #unObjectArray>
+        <li
+          class="data-option"
+          *ngFor="let dropdownvalue of dropdownValues"
+          [ngClass]="[
+            dropdownvalue == showselectedItem ? 'bg-primary' : '',
+            disableOptionList.includes(dropdownvalue) ? 'disabledClass' : ''
+          ]"
+        >
+          <ng-container
+            [ngTemplateOutlet]="
+              optionTemplateRef ? optionTemplateRef : defaultOption
+            "
+            [ngTemplateOutletContext]="{ dropdownvalue: dropdownvalue }"
+          >
+          </ng-container>
+        </li>
+      </ng-template>
+    </ul>
+    <div *ngIf="dropdownValues?.length == 0">
+      {{ selectSettings.noDataAvailableText }}
     </div>
+  </div>
 </div>
 <ng-template #defaultOption let-dropdownvalue="dropdownvalue">
-
-    <div (click)="selectData(dropdownvalue)">{{dropdownvalue[selectSettings.textField]}}</div>
-    <!-- <span class="tooltip" *ngIf="dropdownvalue[selectSettings.textField]==listTextForDisable&& listItemDisable">
-  
-        <span class="tooltiptext">Another contact exists as Org SPOC for this
-            organization. Remove them as SPOC to set this contact as the new SPOC.</span>
-    </span> -->
+  <div (click)="selectData(dropdownvalue)">
+    {{ showSingle ? dropdownvalue : dropdownvalue[selectSettings.textField] }}
+  </div>
 </ng-template>

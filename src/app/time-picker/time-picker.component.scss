@@ -1,0 +1,55 @@
+.clock{
+    padding:30px;
+    border:3px solid black;
+    border-radius: 50%;
+    background: black;;
+}
+.innerCircle{
+    border-radius: 50%;
+    border: 3px solid gray;
+    background: white;
+    position: relative;
+}
+.innerCircle .hour_number{
+    position:absolute;
+}
+.timercircle{
+    border-radius: 50%;
+    border:1px solid green;
+}
+  #clock {
+      width: 200px;
+      height: 200px;
+      border: 10px solid #333;
+      border-radius: 50%;
+      position: relative;
+      margin: 50px auto;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  }
+#numberclock{
+    top:50%;left:50%;
+    border:5px solid green;
+    border-radius: 50%;
+}
+  .hand {
+      width: 2px;
+      height: 80px;
+      background: black;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform-origin: 50% 100%;
+      transition: all 0.05s cubic-bezier(0.1, 2.7, 0.58, 1);
+  }
+
+  .hour {
+      background-color: black;
+  }
+
+  .minute {
+      background-color: #333;
+  }
+
+  .second {
+      background-color: #ff5252;
+  }

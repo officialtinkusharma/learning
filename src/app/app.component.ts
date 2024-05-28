@@ -1,26 +1,51 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { TableTreeComponent } from './table-tree/table-tree.component';
 import { TestingCellrendererComponent } from './custom-table/testing-cellrenderer/testing-cellrenderer.component';
+import { signleSelectDropdownSettings } from './shared/singleselect-dropdown/singleselect.model';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent implements AfterViewInit, OnInit {
+  ngOnInit(): void {
+    this.tableOptions = {
+      context: {
+        componentParent: this,
+      },
+    };
+  }
+  singleselect: any = null;
   ngAfterViewInit(): void {
     // console.log(this.colDef[2].cellRenderer(987654))
+    // let newBlob = fetch('').then((r) => r.blob());
+    // let newBlob:any = 'http://10.0.1.208:5709/web/content/981/'
+    // console.log(newBlob);
+    // window.open('http://10.0.1.208:5709/web/content/981/', '_blank');
   }
   title = 'learning';
+  tableOptions: any;
 
   colDef: any[] = [
     {
       headerName: 'Testing',
       fieldName: 'testing',
       isActive: true,
-      checkboxSelection: true,
+      filterEnable: true,
+      sortingEnable: true,
+      resize: true,
+      tooltipField: 'testing',
     },
-    { headerName: 'Add', fieldName: 'add', isActive: true, width: 10 },
+    {
+      headerName: 'Add',
+      fieldName: 'add',
+      isActive: true,
+      width: 10,
+      filterEnable: true,
+      sortingEnable: true,
+      resize: true,
+    },
     {
       headerName: 'Phone Number',
       fieldName: 'phone',
@@ -74,18 +99,37 @@ export class AppComponent implements AfterViewInit {
       email: 'tarun@gmail.com',
     },
   ];
-  organisation: any = [
-    { id: 11, name: 'hello1' },
-    { id: 12, name: 'hello2' },
-    { id: 13, name: 'hello3' },
-    { id: 14, name: 'hello4' },
-    { id: 15, name: 'hello5' },
-  ];
-  selectedItem: any = 144;
+  organisation: any = [1, 2, 3, 4, 5, 6, 7, 8];
+  selectedItem: any = null;
 
   updateSingleSelect(event: any) {
     this.selectedItem = event.id;
-    console.log(this.selectedItem);
   }
   getSelectedRow(_event: any) {}
+
+  getData() {
+    let id = document.getElementById('textBox');
+    console.log(id);
+  }
+  selectSettings: signleSelectDropdownSettings = {
+    idField: 'id',
+    textField: 'name',
+    selectType: 'unObject',
+  };
+  disableOptionList = [4, 6, 8, 1];
+  count = 0;
+  addRowData() {
+    let newRow = [
+      ...this.rowData,
+      {
+        testing: 'Tarun',
+        add: `${this.count}`,
+        phone: 9876787665,
+        email: 'tarun@gmail.com',
+      },
+    ];
+    this.rowData = [];
+    this.rowData = newRow;
+    this.count++;
+  }
 }

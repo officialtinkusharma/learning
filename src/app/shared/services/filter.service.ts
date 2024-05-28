@@ -200,6 +200,7 @@ export class FilterService {
           }
         });
         return newarr;
+        // return [...newArray, ...filterDataUsingSecondValue];
       } else {
         return filterDataUsingSecondValue;
       }
