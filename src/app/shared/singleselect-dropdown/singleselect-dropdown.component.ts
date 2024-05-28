@@ -9,6 +9,8 @@ import {
   TemplateRef,
   forwardRef,
   ContentChild,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -32,6 +34,7 @@ import {
       multi: true,
     },
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./singleselect-dropdown.component.scss'],
 })
 export class SingleSelectDropdownComponent
@@ -69,7 +72,7 @@ export class SingleSelectDropdownComponent
 
   selectSettings: any;
 
-  constructor() {}
+  constructor(private cdr: ChangeDetectorRef) {}
   /**
    * @author Tinku Sharma
    * @description ngOnchnage() method use show preselect data
@@ -198,6 +201,7 @@ export class SingleSelectDropdownComponent
         }
       }
       this.selectItem.emit(this.showselectedItem);
+      this.cdr.markForCheck();
     }
   }
   private onTouchedCallback: () => void = () => {};
