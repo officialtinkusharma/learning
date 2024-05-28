@@ -8,7 +8,7 @@ import {
   SimpleChanges,
   TemplateRef,
   forwardRef,
-  ViewChild,
+  ContentChild,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -63,7 +63,7 @@ export class SingleSelectDropdownComponent
   @Input()
   optionTemplate!: TemplateRef<any>;
 
-  @ViewChild('optionTemplateRef') optionTemplateRef!: TemplateRef<any>;
+  @ContentChild('optionTemplateRef') optionTemplateRef!: TemplateRef<any>;
   showdropdown: boolean = false;
   openDropdownCalled: boolean = false;
   showselectedItem: any = {};
