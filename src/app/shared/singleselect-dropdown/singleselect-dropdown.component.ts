@@ -60,8 +60,6 @@ export class SingleSelectDropdownComponent
   }
 
   @Output() selectItem = new EventEmitter();
-  @Input()
-  optionTemplate!: TemplateRef<any>;
 
   @ContentChild('optionTemplateRef') optionTemplateRef!: TemplateRef<any>;
   showdropdown: boolean = false;
