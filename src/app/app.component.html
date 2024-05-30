@@ -19,7 +19,7 @@
     </app-singleselect-dropdown>
   </div> -->
 
-  <div style="width: 300px">
+  <!-- <div style="width: 300px">
     <app-singleselect-dropdown
       [optionsList]="organisation"
       [singleSelectSettings]="selectSettings"
@@ -37,23 +37,20 @@
     >
       this field is required
     </div>
-  </div>
-  <!-- <div style="width: 300px">
-    <app-singleselect-dropdown
-      [placeholderName]="'select'"
-      [optionsList]="organisation"
-      [selectedItem]="selectedItem"
-      (selectItem)="updateSingleSelect($event)"
-    ></app-singleselect-dropdown>
-  </div>
-  <div style="width: 300px">
-    <app-singleselect-dropdown
-      [placeholderName]="'select'"
-      [optionsList]="organisation"
-      [selectedItem]="selectedItem"
-      (selectItem)="updateSingleSelect($event)"
-    ></app-singleselect-dropdown>
   </div> -->
+  <div style="width: 300px; margin-left: 200px">
+    <app-multiselect-dropdown
+      name="multiselect"
+      [optionsList]="organisation"
+      [disabledField]="false"
+      [selectSetting]="multiSelectSettings"
+      [disabledItemList]="[]"
+      [(ngModel)]="multiselect"
+      #multiselect1="ngModel"
+      required
+    >
+    </app-multiselect-dropdown>
+  </div>
 </form>
 <!-- 
 <div class="d-flex">

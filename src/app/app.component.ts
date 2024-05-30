@@ -2,6 +2,7 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { TableTreeComponent } from './table-tree/table-tree.component';
 import { TestingCellrendererComponent } from './custom-table/testing-cellrenderer/testing-cellrenderer.component';
 import { signleSelectDropdownSettings } from './shared/singleselect-dropdown/singleselect.model';
+import { multiselectDropdownSettings } from './multiselect-dropdown/multiselect.model';
 
 @Component({
   selector: 'app-root',
@@ -110,6 +111,12 @@ export class AppComponent implements AfterViewInit, OnInit {
   getData() {
     // let id = document.getElementById('textBox');
   }
+  multiselect: any[] = [];
+  multiSelectSettings: multiselectDropdownSettings = {
+    idField: 'id',
+    textField: 'name',
+    showLimitSelectedItem: 3,
+  };
   selectSettings: signleSelectDropdownSettings = {
     idField: 'id',
     textField: 'name',

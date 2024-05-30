@@ -70,7 +70,7 @@ export class SingleSelectDropdownComponent
   showselectedItem: any = {};
   dropdownValues: any = [];
 
-  selectSettings: any;
+  selectSettings: any = { ...this.defaultSetting };
 
   constructor(private cdr: ChangeDetectorRef) {}
   /**
@@ -90,6 +90,7 @@ export class SingleSelectDropdownComponent
           typeof item == 'string' ||
           typeof item == 'boolean'
       );
+      this.writeValue(this.control?.value);
     }
   }
   showSingle: boolean = false;
@@ -125,7 +126,10 @@ export class SingleSelectDropdownComponent
     this.dropdownValues = this.optionsList.filter((item: any) =>
       this.showSingle
         ? item.toString().toLowerCase().includes(searchValue.toLowerCase())
-        : item.name.toString().toLowerCase().includes(searchValue.toLowerCase())
+        : item?.[this.selectSettings?.textField]
+            .toString()
+            .toLowerCase()
+            .includes(searchValue.toLowerCase())
     );
     event.stopPropagation();
   }
