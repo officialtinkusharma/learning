@@ -103,7 +103,7 @@ export class MultiselectDropdownComponent implements OnInit, OnChanges {
     return index;
   }
   toggleSelectAll() {
-    if (this.selectedItem.length == this.optionsList.length) {
+    if (this.selectedItem.length == this.getUnDisableOptionLength()) {
       this.selectedItem = [];
       this.onChangeCallback([]);
       this.onAllDeSelectEmitter.emit([]);
@@ -134,6 +134,8 @@ export class MultiselectDropdownComponent implements OnInit, OnChanges {
       this.onAllSelectEmitter.emit(this.selectedItem);
     }
     this.sendSelectedItemEmitter.emit(this.selectedItem);
+
+    console.log(this.control, 'all select');
   }
   toggleItemSelection(data: any) {
     if (JSON.stringify(this.selectedItem).includes(JSON.stringify(data))) {
@@ -167,6 +169,7 @@ export class MultiselectDropdownComponent implements OnInit, OnChanges {
     this.sendSelectedItemEmitter.emit(this.selectedItem);
     this.selectItemEmitter.emit(data);
     this.onChangeCallback(selectedItemList);
+    console.log(this.control, 'select');
   }
   onRemoveItem(data: any): void {
     let index = this.selectedItem.findIndex(
@@ -178,6 +181,7 @@ export class MultiselectDropdownComponent implements OnInit, OnChanges {
     this.sendSelectedItemEmitter.emit(this.selectedItem);
     this.deSelectItemEmitter.emit(data);
     this.onChangeCallback(selectedItemList);
+    console.log(this.control, 'remove');
   }
 
   searchdata(event: any): void {
@@ -279,5 +283,21 @@ export class MultiselectDropdownComponent implements OnInit, OnChanges {
     } else {
       return this.disabledItemList.includes(data);
     }
+  }
+  getUnDisableOptionLength(): number {
+    let count = 0;
+    for (let data of this.optionsList) {
+      if (this.showSingle) {
+        if (!this.disabledItemList.includes(data)) {
+          count++;
+        }
+      } else {
+        if (!data.isDisabled) {
+          count++;
+        }
+      }
+    }
+
+    return count;
   }
 }

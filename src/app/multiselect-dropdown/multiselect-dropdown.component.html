@@ -75,12 +75,12 @@
             <label class="container">
               <input
                 type="checkbox"
-                [checked]="optionsList.length == selectedItem.length"
+                [checked]="getUnDisableOptionLength() == selectedItem.length"
               />
               <span class="checkmark"></span>
             </label>
             {{
-              optionsList.length != selectedItem.length
+              getUnDisableOptionLength() != selectedItem.length
                 ? multiSelectSettings?.selectAllText
                 : multiSelectSettings?.unSelectAllText
             }}
