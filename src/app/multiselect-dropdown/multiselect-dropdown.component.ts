@@ -110,15 +110,24 @@ export class MultiselectDropdownComponent implements OnInit, OnChanges {
     } else {
       this.selectedItem = [];
       let selectedItemList = [];
-      for (let data of this.optionsList) {
-        if (!data.isDisabled) {
-          selectedItemList.push({
-            [this.multiSelectSettings.idField]:
-              data[this.multiSelectSettings.idField],
-            [this.multiSelectSettings.textField]:
-              data?.[this.multiSelectSettings.textField],
-          });
-          this.selectedItem.push(data);
+      if (this.showSingle) {
+        for (let data of this.optionsList) {
+          if (!this.disabledItemList.includes(data)) {
+            this.selectedItem.push(data);
+            selectedItemList.push(data);
+          }
+        }
+      } else {
+        for (let data of this.optionsList) {
+          if (!data.isDisabled) {
+            selectedItemList.push({
+              [this.multiSelectSettings.idField]:
+                data[this.multiSelectSettings.idField],
+              [this.multiSelectSettings.textField]:
+                data?.[this.multiSelectSettings.textField],
+            });
+            this.selectedItem.push(data);
+          }
         }
       }
       this.onChangeCallback(selectedItemList);
