@@ -53,7 +53,7 @@ export class SingleSelectDropdownComponent
     noDataAvailableText: 'No Data To Select',
   };
   @Input() optionsList: any = [];
-  @Input() disabledField = true;
+  @Input() disabledField = false;
   @Input() disableOptionList: any[] = [];
   @Input()
   public set singleSelectSettings(value: signleSelectDropdownSettings) {
