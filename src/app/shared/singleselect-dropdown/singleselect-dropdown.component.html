@@ -1,29 +1,50 @@
-<div
-  class="acsingleselect"
-  OutsideClickClose
-  [ngClass]="disabledField == true ? 'disableselect' : ''"
-  (clickOutSide)="closeDropdown($event)"
->
+<div class="acsingleselect" [ngClass]="{ disableselect: disabledField }">
   <div
     class="singleSelect"
+    tabindex="0"
+    (keydown)="keydonwOnMain($event)"
     (click)="opendropdown()"
     [ngClass]="{
       errorClass: (control?.touched || control?.dirty) && control?.errors
     }"
   >
-    <input
+    <div
+      class="selecteditem"
+      [ngStyle]="{ height: selectSettings.heightPx + 'px' }"
+    >
+      <ng-container
+        *ngIf=" showSingle
+          ? showselectedItem
+          : showselectedItem?.[selectSettings.idField] else placeholderTemplate"
+      >
+        <div
+          class="selected_item_name ellipse-text"
+          [ngStyle]="{ 'line-height': selectSettings.heightPx + 'px' }"
+        >
+          {{showSingle?showselectedItem:showselectedItem?.[selectSettings.textField]}}
+        </div>
+      </ng-container>
+      <ng-template #placeholderTemplate>
+        <div
+          class="placeholder ellipse-text"
+          [ngStyle]="{ 'line-height': selectSettings.heightPx + 'px' }"
+        >
+          {{ selectSettings?.placeholderName }}
+        </div>
+      </ng-template>
+    </div>
+    <!-- <input
       type="text"
+      tabindex="-1"
       class="selecteditem form-control"
       [(ngModel)]="
         showSingle
           ? showselectedItem
           : showselectedItem[selectSettings.textField]
       "
-      #singleSelectName="ngModel"
       [placeholder]="selectSettings.placeholderName"
       [ngStyle]="{ height: selectSettings.heightPx + 'px' }"
-      readonly
-    />
+    /> -->
     <div class="togglebutton">
       <span class="dropdown-down" [ngClass]="{ d_none: showdropdown }"></span>
       <span class="dropdown-up" [ngClass]="{ d_none: !showdropdown }"></span>
@@ -42,7 +63,12 @@
         />
       </li>
     </ul>
-    <ul class="dataList" *ngIf="dropdownValues?.length > 0">
+    <ul
+      class="dataList"
+      *ngIf="dropdownValues?.length > 0"
+      tabindex="0"
+      (keydown)="keydownOnDataList($event)"
+    >
       <ng-container *ngIf="!showSingle; else unObjectArray">
         <li
           class="data-option"
@@ -50,10 +76,11 @@
           [ngClass]="[
             dropdownvalue[selectSettings.idField] ==
             showselectedItem[selectSettings.idField]
-              ? 'bg-primary'
+              ? 'selected_item'
               : '',
-            dropdownvalue?.disabled ? 'disabledClass' : ''
+            dropdownvalue?.isDisabled ? 'disabledClass' : ''
           ]"
+          (click)="selectData(dropdownvalue)"
         >
           <ng-container
             [ngTemplateOutlet]="
@@ -69,9 +96,10 @@
           class="data-option"
           *ngFor="let dropdownvalue of dropdownValues"
           [ngClass]="[
-            dropdownvalue == showselectedItem ? 'bg-primary' : '',
+            dropdownvalue == showselectedItem ? 'selected_item' : '',
             disableOptionList.includes(dropdownvalue) ? 'disabledClass' : ''
           ]"
+          (click)="selectData(dropdownvalue)"
         >
           <ng-container
             [ngTemplateOutlet]="
@@ -82,14 +110,16 @@
           </ng-container>
         </li>
       </ng-template>
+      <ng-template #defaultOption let-dropdownvalue="dropdownvalue">
+        <div>
+          {{
+            showSingle ? dropdownvalue : dropdownvalue[selectSettings.textField]
+          }}
+        </div>
+      </ng-template>
     </ul>
     <div *ngIf="dropdownValues?.length == 0">
       {{ selectSettings.noDataAvailableText }}
     </div>
   </div>
 </div>
-<ng-template #defaultOption let-dropdownvalue="dropdownvalue">
-  <div (click)="selectData(dropdownvalue)">
-    {{ showSingle ? dropdownvalue : dropdownvalue[selectSettings.textField] }}
-  </div>
-</ng-template>

@@ -38,23 +38,184 @@
       this field is required
     </div>
   </div>
-  <!-- <div style="width: 300px">
-    <app-singleselect-dropdown
-      [placeholderName]="'select'"
-      [optionsList]="organisation"
-      [selectedItem]="selectedItem"
-      (selectItem)="updateSingleSelect($event)"
-    ></app-singleselect-dropdown>
-  </div>
   <div style="width: 300px">
     <app-singleselect-dropdown
-      [placeholderName]="'select'"
-      [optionsList]="organisation"
-      [selectedItem]="selectedItem"
+      [optionsList]="organisationList"
+      [singleSelectSettings]="selectSettings"
+      name="singleselect2"
+      [(ngModel)]="singleselect21"
+      #singleselect2="ngModel"
+      [disableOptionList]="disableOptionList"
+      required
       (selectItem)="updateSingleSelect($event)"
-    ></app-singleselect-dropdown>
-  </div> -->
+    >
+    </app-singleselect-dropdown>
+    <div
+      class="text-danger error_message small"
+      *ngIf="(singleselect2?.touched || singleselect2?.dirty) && singleselect2?.errors?.['required']"
+    >
+      this field is required
+    </div>
+  </div>
+  <div style="width: 300px">
+    <app-multiselect-dropdown
+      name="multiselect22"
+      [optionsList]="organisationList"
+      [disabledField]="true"
+      [selectSetting]="multiSelectSettings"
+      [disabledItemList]="[]"
+      [(ngModel)]="multiselect11"
+      #multiselect22="ngModel"
+      required
+    >
+    </app-multiselect-dropdown>
+  </div>
+
+  <div style="width: 300px">
+    <app-multiselect-dropdown
+      name="multiselect1"
+      [optionsList]="organisation"
+      [disabledField]="false"
+      [selectSetting]="multiSelectSettings"
+      [disabledItemList]="[8, 7]"
+      [(ngModel)]="multiselect"
+      #multiselect1="ngModel"
+      required
+    >
+    </app-multiselect-dropdown>
+  </div>
 </form>
+
+<select style="width: 300px">
+  <option>1</option>
+  <option>2</option>
+  <option>3</option>
+  <option>4</option>
+</select>
+<select style="width: 300px" [(ngModel)]="selectdata">
+  <option>1</option>
+  <option>2</option>
+  <option>3</option>
+  <option>4</option>
+  <option>1</option>
+  <option>2</option>
+  <option>3</option>
+  <option>4</option>
+  <option>1</option>
+  <option>2</option>
+  <option>3</option>
+  <option>4</option>
+  <option>1</option>
+  <option>2</option>
+  <option>3</option>
+  <option>4</option>
+  <option>1</option>
+  <option>2</option>
+  <option>3</option>
+  <option>4</option>
+  <option>1</option>
+  <option>2</option>
+  <option>3</option>
+  <option>4</option>
+  <option>1</option>
+  <option>2</option>
+  <option>3</option>
+  <option>4</option>
+  <option>1</option>
+  <option>2</option>
+  <option>3</option>
+  <option>4</option>
+  <option>1</option>
+  <option>2</option>
+  <option>3</option>
+  <option>4</option>
+  <option>1</option>
+  <option>2</option>
+  <option>3</option>
+  <option>4</option>
+  <option>1</option>
+  <option>2</option>
+  <option>3</option>
+  <option>4</option>
+  <option>1</option>
+  <option>2</option>
+  <option>3</option>
+  <option>4</option>
+  <option>1</option>
+  <option>2</option>
+  <option>3</option>
+  <option>4</option>
+  <option>1</option>
+  <option>2</option>
+  <option>3</option>
+  <option>4</option>
+  <option>1</option>
+  <option>2</option>
+  <option>3</option>
+  <option>4</option>
+  <option>1</option>
+  <option>2</option>
+  <option>3</option>
+  <option>4</option>
+  <option>1</option>
+  <option>2</option>
+  <option>3</option>
+  <option>4</option>
+  <option>1</option>
+  <option>2</option>
+  <option>3</option>
+  <option>4</option>
+  <option>1</option>
+  <option>2</option>
+  <option>3</option>
+  <option>4</option>
+  <option>1</option>
+  <option>2</option>
+  <option>3</option>
+  <option>4</option>
+  <option>1</option>
+  <option>2</option>
+  <option>3</option>
+  <option>4</option>
+  <option>1</option>
+  <option>2</option>
+  <option>3</option>
+  <option>4</option>
+  <option>1</option>
+  <option>2</option>
+  <option>3</option>
+  <option>4</option>
+  <option>1</option>
+  <option>2</option>
+  <option>3</option>
+  <option>4</option>
+  <option>1</option>
+  <option>2</option>
+  <option>3</option>
+  <option>4</option>
+  <option>1</option>
+  <option>2</option>
+  <option>3</option>
+  <option>4</option>
+</select>
+<select style="width: 300px">
+  <option>1</option>
+  <option>2</option>
+  <option>3</option>
+  <option>4</option>
+</select>
+<select style="width: 300px">
+  <option>1</option>
+  <option>2</option>
+  <option>3</option>
+  <option>4</option>
+</select>
+<select style="width: 300px">
+  <option>1</option>
+  <option>2</option>
+  <option>3</option>
+  <option>4</option>
+</select>
 <!-- 
 <div class="d-flex">
   <div class="div1">lkjalsdfjl;sadf</div>

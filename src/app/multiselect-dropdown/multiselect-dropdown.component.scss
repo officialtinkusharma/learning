@@ -1,0 +1,248 @@
+.ac_multiselect_dropdown {
+  position: relative;
+  background-color: #fff;
+  &:focus-visible{
+    outline:auto
+  }
+  .multiselect_field {
+    width: 100%;
+    display: flex;
+    border: 1px solid #afafaf;
+    background-color: inherit;
+    border-radius: 3px;
+    min-height: 30px;
+    align-items: center;
+    position: relative;
+    padding-bottom: 4px;
+
+    .selected_item_list {
+      width: 95%;
+      .placeholder {
+        width: 98%;
+        cursor: default;
+        color: #a9a9a9;
+        font-size: 12px;
+        padding-inline: 5px;
+      }
+    }
+            .number_count {
+              margin-right: 5px;
+              border-radius: 50%;
+              background-color: aqua;
+              padding-inline: 2px;
+            }
+  }
+
+
+  .d_none {
+    display: none !important;
+  }
+
+  .togglebutton {
+    margin-right: 5px;
+  }
+
+  .dropdown-up {
+    border: solid #26242a;
+    border-width: 0px 1.5px 1.5px 0;
+    display: inline-block;
+    padding: 2.5px;
+    margin-top: 6px;
+    transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+  }
+
+  .dropdown-down {
+    border: solid #26242a;
+    border-width: 0px 1.4px 1.4px 0;
+    display: inline-block;
+    padding: 2.4px;
+    margin-bottom: 3px;
+    margin-top: 3px;
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+  }
+
+  .ellipse-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .selected_item {
+    max-width: 100px;
+    overflow: hidden;
+    display: inline-flex;
+    background-color: #9beee9db;
+    margin: 3px 3px 0 3px;
+    position: relative;
+    border-radius: 3px;
+    line-height: 17px;
+    justify-content: space-between;
+    padding:2px 4px;
+  }
+
+  .close_chip {
+    cursor: pointer;
+    padding-left:7px;
+  }
+
+  .selected_item_chips {
+    max-width: 89px;
+    min-width: 25px;
+  }
+
+  .multiselect_dropdown {
+    width: 100%;
+    position: absolute;
+    border: 1px solid #afafaf;
+    background-color: #ffff;
+  }
+
+  .action_div .selection_action {
+    cursor: pointer;
+    border-bottom: 1px solid #afafaf;
+    display:flex;
+    padding:5px 0 5px 5px;
+
+    &:hover {
+      background-color: #afafaf;
+    }
+  }
+
+  .action_div .search_action {
+    display: flex;
+    align-items: center;
+    gap: 17px;
+    border-bottom: 1px solid #ccc;
+    position: relative;
+    padding: 5px;
+
+    input {
+      border: 0px;
+      width: 100%;
+    }
+
+    input:focus {
+      outline: none;
+    }
+  }
+
+  .multiselect_dropdownList {
+    overflow: auto;
+    max-height: 200px;
+  }
+
+  .multiselect_dropdownList .dropdown_item {
+    cursor: pointer;
+    display:flex;
+    padding:5px 0 5px 5px;
+    &:hover {
+      background-color: #afafaf;
+    }
+  }
+  .disabledItem{
+      pointer-events: none;
+      color: #afafaf;
+    }
+
+  .no_data_available {
+    text-align: center;
+    padding-block: 20px;
+  }
+    .container {
+      display: block;
+      position: relative;
+      padding-left: 25px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      font-size: 22px;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+        .disabledItem{
+          .checkmark{
+            border-color: #afafaf;
+          }
+        }
+  
+    /* Hide the browser's default checkbox */
+      .container input[type="checkbox"] {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+      }
+    
+      /* Create a custom checkbox */
+      .checkmark {
+        position: absolute;
+        top: 2px;
+        left: 0;
+        height: 12px;
+        width: 12px;
+        background-color: #fff;
+        border-radius: 4px;
+        border: 1.5px solid #000000bf;
+      }
+        .container.inter_mediant{
+          input:not(:checked)~.checkmark{
+            background-color: #2196f3;
+            border-color: #2196f3;
+          }
+          input:not(:checked)~.checkmark:after{
+          border-width: 1.4px;
+            content: "";
+            position: absolute;
+            display: block;
+            width: 0px;
+            left: 5px;
+            top: 1.3px;
+            height:7px;
+            transform: rotate(90deg);
+          }
+        }
+      /* On mouse-over, add a grey background color */
+      .container:hover input~.checkmark {
+        background-color: #fff;
+      }
+    
+      /* When the checkbox is checked, add a blue background */
+      .container input:checked~.checkmark {
+        background-color: #2196F3;
+        border-radius: 4px;
+        border-color: #2196f3;
+      }
+    
+      /* Create the checkmark/indicator (hidden when not checked) */
+      .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+      }
+    
+      /* Show the checkmark when checked */
+      .container input:checked~.checkmark:after {
+        display: block;
+      }
+    
+      /* Style the checkmark/indicator */
+      .container .checkmark:after {
+        left: 3px;
+        top: 0;
+        width: 3px;
+        height: 8px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+      }
+    }
+.disabled {
+  pointer-events: none;
+  background-color: #e4e4e4;
+}

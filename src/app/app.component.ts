@@ -2,6 +2,7 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { TableTreeComponent } from './table-tree/table-tree.component';
 import { TestingCellrendererComponent } from './custom-table/testing-cellrenderer/testing-cellrenderer.component';
 import { signleSelectDropdownSettings } from './shared/singleselect-dropdown/singleselect.model';
+import { multiselectDropdownSettings } from './multiselect-dropdown/multiselect.model';
 
 @Component({
   selector: 'app-root',
@@ -26,7 +27,7 @@ export class AppComponent implements AfterViewInit, OnInit {
   }
   title = 'learning';
   tableOptions: any;
-
+  selectdata = '';
   colDef: any[] = [
     {
       headerName: 'Testing',
@@ -110,12 +111,20 @@ export class AppComponent implements AfterViewInit, OnInit {
   getData() {
     // let id = document.getElementById('textBox');
   }
+  multiselect: any[] = [];
+  multiselect11: any[] = [];
+  multiSelectSettings: multiselectDropdownSettings = {
+    idField: 'id',
+    textField: 'name',
+    showLimitSelectedItem: 3,
+  };
   selectSettings: signleSelectDropdownSettings = {
     idField: 'id',
     textField: 'name',
     selectType: 'unObject',
   };
   disableOptionList = [4, 6, 8, 1];
+  singleselect21: any;
   count = 0;
   addRowData() {
     let newRow = [
@@ -131,4 +140,13 @@ export class AppComponent implements AfterViewInit, OnInit {
     this.rowData = newRow;
     this.count++;
   }
+
+  organisationList = [
+    { id: 1, name: 'aditya org 1' },
+    { id: 2, name: 'aditya org 2', isDisabled: false },
+    { id: 3, name: 'aditya org 3', isDisabled: false },
+    { id: 4, name: 'aditya org 4' },
+    { id: 5, name: 'aditya org 5', isDisabled: false },
+    { id: 6, name: 'aditya org 6' },
+  ];
 }
