@@ -27,7 +27,7 @@ export class AppComponent implements AfterViewInit, OnInit {
   }
   title = 'learning';
   tableOptions: any;
-
+  selectdata = '';
   colDef: any[] = [
     {
       headerName: 'Testing',
@@ -112,6 +112,7 @@ export class AppComponent implements AfterViewInit, OnInit {
     // let id = document.getElementById('textBox');
   }
   multiselect: any[] = [];
+  multiselect11: any[] = [];
   multiSelectSettings: multiselectDropdownSettings = {
     idField: 'id',
     textField: 'name',
@@ -123,6 +124,7 @@ export class AppComponent implements AfterViewInit, OnInit {
     selectType: 'unObject',
   };
   disableOptionList = [4, 6, 8, 1];
+  singleselect21: any;
   count = 0;
   addRowData() {
     let newRow = [
@@ -138,4 +140,13 @@ export class AppComponent implements AfterViewInit, OnInit {
     this.rowData = newRow;
     this.count++;
   }
+
+  organisationList = [
+    { id: 1, name: 'aditya org 1' },
+    { id: 2, name: 'aditya org 2', isDisabled: false },
+    { id: 3, name: 'aditya org 3', isDisabled: false },
+    { id: 4, name: 'aditya org 4' },
+    { id: 5, name: 'aditya org 5', isDisabled: false },
+    { id: 6, name: 'aditya org 6' },
+  ];
 }

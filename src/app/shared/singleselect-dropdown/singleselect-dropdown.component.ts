@@ -11,6 +11,8 @@ import {
   ContentChild,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
+  HostListener,
+  ElementRef,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -51,7 +53,7 @@ export class SingleSelectDropdownComponent
     noDataAvailableText: 'No Data To Select',
   };
   @Input() optionsList: any = [];
-  @Input() disabledField = false;
+  @Input() disabledField = true;
   @Input() disableOptionList: any[] = [];
   @Input()
   public set singleSelectSettings(value: signleSelectDropdownSettings) {
@@ -72,7 +74,7 @@ export class SingleSelectDropdownComponent
 
   selectSettings: any = { ...this.defaultSetting };
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(private cdr: ChangeDetectorRef, private el: ElementRef) {}
   /**
    * @author Tinku Sharma
    * @description ngOnchnage() method use show preselect data
@@ -94,7 +96,6 @@ export class SingleSelectDropdownComponent
     }
   }
   showSingle: boolean = false;
-  blurSelect = false;
   control: any;
   ngOnInit(): void {}
   public onOutsideClick(_event: any): void {
@@ -107,13 +108,18 @@ export class SingleSelectDropdownComponent
    * @returns {void}
    */
   opendropdown() {
+    if (this.showdropdown) this.onTouchedCallback();
     this.showdropdown = !this.showdropdown;
-    if (this.blurSelect) this.onTouchedCallback();
-    this.blurSelect = !this.blurSelect;
 
     if (this.optionsList) {
       this.dropdownValues = JSON.parse(JSON.stringify(this.optionsList));
     }
+    setTimeout(() => {
+      let data: any = document.getElementsByClassName('selected_item');
+      if (data.length) {
+        data[0].scrollIntoViewIfNeeded();
+      }
+    }, 10);
   }
   /**
    * @author Tinku Sharma
@@ -140,27 +146,26 @@ export class SingleSelectDropdownComponent
    * @returns {void}
    */
   selectData(data: any) {
-    if (this.blurSelect) this.onTouchedCallback();
-    this.showdropdown = false;
-    this.blurSelect = false;
-    if (JSON.stringify(this.showselectedItem) != JSON.stringify(data)) {
-      this.showselectedItem = data;
+    if (
+      !(this.showSingle
+        ? this.disableOptionList.includes(data)
+        : data?.isDisabled)
+    ) {
+      if (this.showdropdown) this.onTouchedCallback();
+      this.showdropdown = false;
+      if (JSON.stringify(this.showselectedItem) != JSON.stringify(data)) {
+        this.showselectedItem = data;
 
-      if (this.selectSettings.selectType == 'object' || this.showSingle) {
-        this.onChangeCallback(this.showselectedItem);
-      } else {
-        this.onChangeCallback(
-          this.showselectedItem[this.selectSettings.idField]
-        );
+        if (this.selectSettings.selectType == 'object' || this.showSingle) {
+          this.onChangeCallback(this.showselectedItem);
+        } else {
+          this.onChangeCallback(
+            this.showselectedItem[this.selectSettings.idField]
+          );
+        }
+        this.selectItem.emit(data);
       }
-      this.selectItem.emit(data);
     }
-  }
-
-  closeDropdown(_event: any) {
-    this.showdropdown = false;
-    if (this.blurSelect) this.onTouchedCallback();
-    this.blurSelect = false;
   }
   writeValue(value: any): void {
     if (this.showSingle) {
@@ -220,5 +225,187 @@ export class SingleSelectDropdownComponent
   // Validator Interface
   public validate(c: FormControl) {
     this.control = c;
+  }
+
+  @HostListener('document:click', ['$event', '$event.target'])
+  onClick(_evnet: MouseEvent, targetElement: HTMLElement): void {
+    if (targetElement) {
+      if (!this.el.nativeElement.contains(targetElement)) {
+        if (this.showdropdown) {
+          this.dropdownValues = JSON.parse(JSON.stringify(this.optionsList));
+          this.onTouchedCallback();
+          this.showdropdown = false;
+        }
+      }
+    }
+  }
+  @HostListener('document:keyup', ['$event', '$event.target'])
+  onkeydownpress(event: KeyboardEvent, targetElement: HTMLElement) {
+    if (event.key == 'Tab') {
+      if (targetElement) {
+        if (!this.el.nativeElement.contains(targetElement)) {
+          if (this.showdropdown) {
+            this.dropdownValues = JSON.parse(JSON.stringify(this.optionsList));
+            this.onTouchedCallback();
+            this.showdropdown = false;
+          }
+        }
+      }
+    }
+  }
+  keydonwOnMain(event: KeyboardEvent) {
+    if (!this.disabledField) {
+      if (event.key == 'Enter') {
+        this.opendropdown();
+        event.preventDefault();
+      } else if (
+        (event.key == 'ArrowUp' || event.key == 'ArrowDown') &&
+        this.dropdownValues.length
+      ) {
+        let index = -1;
+        if (
+          this.showSingle
+            ? this.showselectedItem
+            : this.showselectedItem?.[this.selectSettings.idField]
+        ) {
+          index = this.dropdownValues.findIndex(
+            (item: any) =>
+              JSON.stringify(item) == JSON.stringify(this.showselectedItem)
+          );
+        }
+        if (event.key == 'ArrowUp') {
+          if (index == -1 || index == 0) {
+            this.selectDataByKeyBoard(
+              this.dropdownValues[
+                this.checkDisabledFied(this.optionsList.length - 1, 'ArrowUp')
+              ]
+            );
+          } else {
+            this.selectDataByKeyBoard(
+              this.dropdownValues[this.checkDisabledFied(index - 1, 'ArrowUp')]
+            );
+          }
+          event.preventDefault();
+        } else if (event.key == 'ArrowDown') {
+          if (index == this.dropdownValues.length - 1 || index == -1) {
+            this.selectDataByKeyBoard(
+              this.dropdownValues[this.checkDisabledFied(0, 'ArrowDown')]
+            );
+          } else {
+            this.selectDataByKeyBoard(
+              this.dropdownValues[
+                this.checkDisabledFied(index + 1, 'ArrowDown')
+              ]
+            );
+          }
+          event.preventDefault();
+        }
+        setTimeout(() => {
+          let data: any = document.getElementsByClassName('selected_item');
+          if (data.length) {
+            data[0].scrollIntoViewIfNeeded();
+          }
+        }, 10);
+      }
+    }
+  }
+
+  checkDisabledFied(index: number, action: string): number {
+    if (
+      this.showSingle
+        ? this.disableOptionList.includes(this.dropdownValues[index])
+        : this.dropdownValues[index]?.isDisabled
+    ) {
+      if (action == 'ArrowDown') {
+        if (index == -1 || index == this.dropdownValues.length - 1) {
+          index = 0;
+        } else {
+          index++;
+        }
+      } else {
+        if (index == 0 || index == -1) {
+          index = this.dropdownValues.length - 1;
+        } else {
+          index--;
+        }
+      }
+      return this.checkDisabledFied(index, action);
+    } else {
+      return index;
+    }
+  }
+  selectDataByKeyBoard(data: any) {
+    if (
+      !(this.showSingle
+        ? this.disableOptionList.includes(data)
+        : data?.isDisabled)
+    ) {
+      if (JSON.stringify(this.showselectedItem) != JSON.stringify(data)) {
+        this.showselectedItem = data;
+
+        if (this.selectSettings.selectType == 'object' || this.showSingle) {
+          this.onChangeCallback(this.showselectedItem);
+        } else {
+          this.onChangeCallback(
+            this.showselectedItem[this.selectSettings.idField]
+          );
+        }
+        this.selectItem.emit(data);
+      }
+    }
+  }
+  keydownOnDataList(event: KeyboardEvent) {
+    if (!this.disabledField) {
+      if (
+        (event.key == 'ArrowUp' || event.key == 'ArrowDown') &&
+        this.dropdownValues.length
+      ) {
+        event.preventDefault();
+        let index = -1;
+        if (
+          this.showSingle
+            ? this.showselectedItem
+            : this.showselectedItem?.[this.selectSettings.idField]
+        ) {
+          index = this.dropdownValues.findIndex(
+            (item: any) =>
+              JSON.stringify(item) == JSON.stringify(this.showselectedItem)
+          );
+        }
+        if (event.key == 'ArrowUp') {
+          if (index == -1 || index == 0) {
+            this.selectDataByKeyBoard(
+              this.dropdownValues[
+                this.checkDisabledFied(this.optionsList.length - 1, 'ArrowUp')
+              ]
+            );
+          } else {
+            this.selectDataByKeyBoard(
+              this.dropdownValues[this.checkDisabledFied(index - 1, 'ArrowUp')]
+            );
+          }
+          // event.preventDefault();
+        } else if (event.key == 'ArrowDown') {
+          if (index == this.dropdownValues.length - 1 || index == -1) {
+            this.selectDataByKeyBoard(
+              this.dropdownValues[this.checkDisabledFied(0, 'ArrowDown')]
+            );
+          } else {
+            this.selectDataByKeyBoard(
+              this.dropdownValues[
+                this.checkDisabledFied(index + 1, 'ArrowDown')
+              ]
+            );
+          }
+          // event.preventDefault();
+        }
+        setTimeout(() => {
+          let data: any = document.getElementsByClassName('selected_item');
+          if (data.length) {
+            data[0].scrollIntoViewIfNeeded();
+          }
+        }, 10);
+      }
+    }
   }
 }

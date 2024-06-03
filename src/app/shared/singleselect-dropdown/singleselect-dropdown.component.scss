@@ -38,21 +38,19 @@
     overflow-x: auto;
     overflow-y: auto;
 }
-
+.dropdown-list .dataList:focus-visible{
+    outline: none;
+}
 .dropdown-list ul li input[type=text] {
     width: 92%;
     border: none;
 }
 
-.data-option div {
-    width: 98%;
-    height: 100%;
-    font-size: 10px;
-    padding: 3px;
-    color:#1a1a1a;
+.data-option {
+padding: 5px 0 5px 5px
 }
 
-.data-option div:hover {
+.data-option:hover {
     cursor: pointer;
     background: rgb(162, 162, 165);
     color:#fff;
@@ -86,19 +84,18 @@
 .selecteditem {
     width: 95%;
     overflow-x: hidden;
-    border: none;
     background: #fff;
-    border-radius: 3px;
-    font-size: 10px;
     padding: 0.3125rem 0.1625rem 0.3125rem 0.3125rem !important;
-    outline: none;
     cursor: context-menu;
+    .placeholder{
+        width:98%;
+        color: #a9a9a9;
+            font-size: 12px;
+    }
+    .selected_item_name{
+        width:98%;
+    }
 }
-
-.singleSelect:focus {
-    outline: none;
-}
-
 .togglebutton {
     padding-right: 5px;
 }
@@ -106,30 +103,17 @@
 .singleSelect input[type=text]:disabled {
     color: #1a1a1a;
 }
-
-.dropdown-list.dataList::-webkit-scrollbar {
-    width: 1px;
-}
-
-.dropdown-list.dataList::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    border-radius: 10px;
-}
-
-.dropdown-list.dataList::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
-}
-
-.bg-primary {
+.selected_item {
     background-color: aqua;
 
 }
 
 .search_input {
-    padding-left: 2px !important;
     margin-top: 0;
     border-bottom: 1px solid #c4c4cf;
+}
+.search_input li{
+    padding: 5px 0 5px 5px;
 }
 
 .disableselect {
@@ -146,35 +130,18 @@
 
 .disableselect .singleSelect .selecteditem {
     background-color: #e4e4e4;
+    
 }
 .disabledClass {
     color: grey;
     pointer-events: none;
     opacity: 0.5;
 }
-
-.dropdown-list .dataList::-webkit-scrollbar-track {
-    border-radius: 6px;
-    -webkit-box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.3);
-    background-color: #F5F6F7;
-}
-
-.dropdown-list .dataList::-webkit-scrollbar {
-    width: 6px;
-    height:6px;
-    border-radius: 6px;
-    background-color: #D8D8D8;
-}
-
-.dropdown-list .dataList::-webkit-scrollbar-thumb {
-    background-color: #95989a;
-    border-radius: 6px;
-}
 .d_none{
 display:none !important;
 }
-// .error_message{
-//     position:absolute;
-//     color:red;
-//     font-size: 10px;
-// }
+.ellipse-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

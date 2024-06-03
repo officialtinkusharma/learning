@@ -41,8 +41,7 @@ export class MultiselectDropdownComponent implements OnInit, OnChanges {
   @ContentChild('optionTemplateRef') optionTemplateRef!: TemplateRef<any>;
   @ContentChild('selectedItemTemplateRef')
   selectedItemTemplateRef!: TemplateRef<any>;
-  @Input()
-  disabledField: boolean = false;
+  @Input() disabledField: boolean = true;
   @Input() disabledItemList: any[] = []; // when option list is not array of object
   @Input() optionsList: any[] = [];
   @Input() public set selectSetting(value: multiselectDropdownSettings) {
@@ -72,6 +71,7 @@ export class MultiselectDropdownComponent implements OnInit, OnChanges {
     allowSearch: true,
     noDataAvailableText: 'No Data to Show',
     filterNoDataAvailableText: 'No Data to Show',
+    heightPx: 25,
   };
 
   selectedItem: any[] = [];
@@ -104,22 +104,50 @@ export class MultiselectDropdownComponent implements OnInit, OnChanges {
   }
   toggleSelectAll() {
     if (this.selectedItem.length == this.getUnDisableOptionLength()) {
-      this.selectedItem = [];
-      this.onChangeCallback([]);
-      this.onAllDeSelectEmitter.emit([]);
+      let defaultSelectedItem: any[] = [];
+      let defaultSelectedItemForPatch: any[] = [];
+      for (let data of this.selectedItem) {
+        if (!this.showSingle) {
+          if (data?.isDisabled) {
+            defaultSelectedItem.push(data);
+            defaultSelectedItemForPatch.push({
+              [this.multiSelectSettings.idField]:
+                data[this.multiSelectSettings.idField],
+              [this.multiSelectSettings.textField]:
+                data?.[this.multiSelectSettings.textField],
+            });
+          }
+        } else {
+          if (this.disabledItemList.includes(data)) {
+            defaultSelectedItem.push(data);
+            defaultSelectedItemForPatch.push(data);
+          }
+        }
+      }
+
+      this.selectedItem = JSON.parse(JSON.stringify(defaultSelectedItem));
+      this.onChangeCallback(defaultSelectedItemForPatch);
+      this.onAllDeSelectEmitter.emit(this.selectedItem);
     } else {
+      let duplicateSelectedItem = JSON.parse(JSON.stringify(this.selectedItem));
       this.selectedItem = [];
       let selectedItemList = [];
       if (this.showSingle) {
         for (let data of this.optionsList) {
-          if (!this.disabledItemList.includes(data)) {
+          if (
+            !this.disabledItemList.includes(data) ||
+            JSON.stringify(duplicateSelectedItem).includes(JSON.stringify(data))
+          ) {
             this.selectedItem.push(data);
             selectedItemList.push(data);
           }
         }
       } else {
         for (let data of this.optionsList) {
-          if (!data.isDisabled) {
+          if (
+            !data.isDisabled ||
+            JSON.stringify(duplicateSelectedItem).includes(JSON.stringify(data))
+          ) {
             selectedItemList.push({
               [this.multiSelectSettings.idField]:
                 data[this.multiSelectSettings.idField],
@@ -138,10 +166,12 @@ export class MultiselectDropdownComponent implements OnInit, OnChanges {
     console.log(this.control, 'all select');
   }
   toggleItemSelection(data: any) {
-    if (JSON.stringify(this.selectedItem).includes(JSON.stringify(data))) {
-      this.onRemoveItem(data);
-    } else {
-      this.onSelectItem(data);
+    if (!this.checkDisabledItem(data)) {
+      if (JSON.stringify(this.selectedItem).includes(JSON.stringify(data))) {
+        this.onRemoveItem(data);
+      } else {
+        this.onSelectItem(data);
+      }
     }
   }
 
@@ -197,9 +227,11 @@ export class MultiselectDropdownComponent implements OnInit, OnChanges {
     event.stopPropagation();
   }
   toggleDropdonw(): void {
-    if (this.showdropdown) this.onTouchedCallback();
-    this.showdropdown = !this.showdropdown;
-    this.dropdownList = JSON.parse(JSON.stringify(this.optionsList));
+    if (!this.disabledField) {
+      if (this.showdropdown) this.onTouchedCallback();
+      this.showdropdown = !this.showdropdown;
+      this.dropdownList = JSON.parse(JSON.stringify(this.optionsList));
+    }
   }
   @HostListener('document:click', ['$event', '$event.target'])
   onClick(_evnet: MouseEvent, targetElement: HTMLElement): void {
@@ -208,6 +240,19 @@ export class MultiselectDropdownComponent implements OnInit, OnChanges {
         if (this.showdropdown) {
           this.onTouchedCallback();
           this.showdropdown = false;
+        }
+      }
+    }
+  }
+  @HostListener('document:keyup', ['$event', '$event.target'])
+  onkeydownpress(event: KeyboardEvent, targetElement: HTMLElement) {
+    if (event.key == 'Tab') {
+      if (targetElement) {
+        if (!this.el.nativeElement.contains(targetElement)) {
+          if (this.showdropdown) {
+            this.onTouchedCallback();
+            this.showdropdown = false;
+          }
         }
       }
     }
@@ -288,16 +333,33 @@ export class MultiselectDropdownComponent implements OnInit, OnChanges {
     let count = 0;
     for (let data of this.optionsList) {
       if (this.showSingle) {
-        if (!this.disabledItemList.includes(data)) {
+        if (
+          !this.disabledItemList.includes(data) ||
+          JSON.stringify(this.selectedItem).includes(JSON.stringify(data))
+        ) {
           count++;
         }
       } else {
-        if (!data.isDisabled) {
+        if (
+          !data.isDisabled ||
+          JSON.stringify(this.selectedItem).includes(JSON.stringify(data))
+        ) {
           count++;
         }
       }
     }
 
     return count;
+  }
+  allSelectKeydown(event: KeyboardEvent) {
+    if (event.key == 'Enter' || event.code == 'Space') {
+      this.toggleSelectAll();
+    }
+  }
+  toggleSelectKeydown(event: KeyboardEvent, data: any) {
+    if (event.key == 'Enter' || event.code == 'Space') {
+      this.toggleItemSelection(data);
+      event.preventDefault();
+    }
   }
 }

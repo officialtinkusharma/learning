@@ -10,4 +10,5 @@ export interface multiselectDropdownSettings {
   allowSearch?: boolean;
   noDataAvailableText?: string;
   filterNoDataAvailableText?: string;
+  heightPx?: number;
 }

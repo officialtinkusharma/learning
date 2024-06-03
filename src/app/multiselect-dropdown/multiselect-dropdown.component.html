@@ -2,6 +2,8 @@
   <div
     class="multiselect_field"
     (click)="toggleDropdonw()"
+    (keydown.enter)="toggleDropdonw()"
+    tabindex="0"
     [ngClass]="{
       errorClass: (control?.touched || control?.dirty) && control?.errors
     }"
@@ -35,7 +37,7 @@
           </span>
           <span
             class="close_chip"
-            (click)="$event.stopPropagation(); onRemoveItem(data)"
+            (click)="$event.stopPropagation(); toggleItemSelection(data)"
             >x</span
           >
         </div>
@@ -68,14 +70,26 @@
           "
         >
           <div
+            tabindex="0"
+            (keydown)="allSelectKeydown($event)"
             class="selection_action"
             (click)="toggleSelectAll()"
             [ngClass]="{ disabledItem: checkAllFieldDisalbed() }"
           >
-            <label class="container">
+            <label
+              class="container"
+              [ngClass]="{ inter_mediant: selectedItem.length }"
+            >
               <input
+                tabindex="-1"
                 type="checkbox"
+                (change)="toggleSelectAll()"
                 [checked]="getUnDisableOptionLength() == selectedItem.length"
+                [attr.aria-label]="
+                  getUnDisableOptionLength() != selectedItem.length
+                    ? multiSelectSettings?.selectAllText
+                    : multiSelectSettings?.unSelectAllText
+                "
               />
               <span class="checkmark"></span>
             </label>
@@ -110,6 +124,7 @@
               type="text"
               placeholder="Search..."
               (keyup)="searchdata($event)"
+              aria-label="multiselect-search"
             />
           </div>
         </ng-container>
@@ -117,6 +132,8 @@
       <div class="multiselect_dropdownList">
         <ng-container *ngIf="dropdownList.length; else noSearchDataAvailable">
           <div
+            tabindex="0"
+            (keydown)="toggleSelectKeydown($event, data)"
             class="dropdown_item"
             *ngFor="let data of dropdownList; trackBy: trackByFn"
             (click)="toggleItemSelection(data)"
@@ -124,9 +141,11 @@
           >
             <label class="container">
               <input
+                tabindex="-1"
                 type="checkbox"
                 (change)="toggleItemSelection(data)"
                 [checked]="isSelected(data)"
+                [attr.aria-label]=" showSingle ? data : data?.[multiSelectSettings?.textField]"
               />
               <span class="checkmark"></span>
             </label>
