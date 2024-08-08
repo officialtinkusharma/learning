@@ -2,7 +2,6 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnInit,
   Output,
   OnChanges,
   SimpleChanges,
@@ -42,7 +41,7 @@ import { signleSelectDropdownSettings } from './singleselect.model';
   styleUrls: ['./singleselect-dropdown.component.scss'],
 })
 export class SingleSelectDropdownComponent
-  implements OnInit, OnChanges, ControlValueAccessor, Validator
+  implements OnChanges, ControlValueAccessor, Validator
 {
   defaultSetting: signleSelectDropdownSettings = {
     idField: 'id',
@@ -101,10 +100,6 @@ export class SingleSelectDropdownComponent
   }
   showSingle: boolean = false;
   control: any;
-  ngOnInit(): void {}
-  public onOutsideClick(_event: any): void {
-    this.showdropdown = false;
-  }
   /**
    * @author Tinku Sharma
    * @description opendropdonw() method use for dropdown list
@@ -182,6 +177,10 @@ export class SingleSelectDropdownComponent
       }
     }
   }
+  /**
+   * @description this method is call when update value of formControl;
+   * @param value
+   */
   writeValue(value: any): void {
     let data: any;
     if (this.showSingle) {
@@ -264,6 +263,7 @@ export class SingleSelectDropdownComponent
       this.showselectedItem = data;
     }
   }
+
   private onTouchedCallback: () => void = () => {};
   private onChangeCallback: (_: any) => void = () => {};
   // private onValidatorChange: () => void = () => {};
@@ -276,19 +276,15 @@ export class SingleSelectDropdownComponent
   // registerOnValidatorChange(fn: () => void): void {
   //   this.onValidatorChange = fn;
   // }
-  // Validator Interface
-  // public validate(c: FormControl) {
-  //   this.control = c;
-  // }
+
   setDisabledState?(isDisabled: boolean): void {
     // Handle disabled state
     this.disabledFormControl = isDisabled;
   }
-
+  // Validator Interface
   validate(control: FormControl): any {
     // Custom validation logic
     this.control = control;
-    // return control.value ? null : { required: true };
   }
 
   @HostListener('document:click', ['$event', '$event.target'])
@@ -317,7 +313,11 @@ export class SingleSelectDropdownComponent
       }
     }
   }
-  keydonwOnMain(event: KeyboardEvent) {
+  /**
+   * @description this method is use to focus or select value of formcontrol
+   * @param event
+   */
+  keydonwOnMain(event: KeyboardEvent): void {
     if (!this.disabledFormControl) {
       if (event.key == 'Enter') {
         this.opendropdown();
@@ -349,7 +349,7 @@ export class SingleSelectDropdownComponent
           if (index == -1 || index == 0) {
             this.selectDataByKeyBoard(
               this.dropdownValues[
-                this.checkDisabledFied(
+                this.checkDisabledField(
                   this.dropdownValues.length - 1,
                   'ArrowUp'
                 )
@@ -357,19 +357,19 @@ export class SingleSelectDropdownComponent
             );
           } else {
             this.selectDataByKeyBoard(
-              this.dropdownValues[this.checkDisabledFied(index - 1, 'ArrowUp')]
+              this.dropdownValues[this.checkDisabledField(index - 1, 'ArrowUp')]
             );
           }
           event.preventDefault();
         } else if (event.key == 'ArrowDown') {
           if (index == this.dropdownValues.length - 1 || index == -1) {
             this.selectDataByKeyBoard(
-              this.dropdownValues[this.checkDisabledFied(0, 'ArrowDown')]
+              this.dropdownValues[this.checkDisabledField(0, 'ArrowDown')]
             );
           } else {
             this.selectDataByKeyBoard(
               this.dropdownValues[
-                this.checkDisabledFied(index + 1, 'ArrowDown')
+                this.checkDisabledField(index + 1, 'ArrowDown')
               ]
             );
           }
@@ -384,8 +384,13 @@ export class SingleSelectDropdownComponent
       }
     }
   }
-
-  checkDisabledFied(index: number, action: string): number {
+  /**
+   * @description this mehtod is use to check next undisabled field
+   * @param index
+   * @param action
+   * @returns number
+   */
+  checkDisabledField(index: number, action: string): number {
     if (
       this.showSingle
         ? this.disableOptionList.includes(this.dropdownValues[index])
@@ -404,11 +409,15 @@ export class SingleSelectDropdownComponent
           index--;
         }
       }
-      return this.checkDisabledFied(index, action);
+      return this.checkDisabledField(index, action);
     } else {
       return index;
     }
   }
+  /**
+   * @description this method is use to select value by keyboard and set value in formcontrols
+   * @param data
+   */
   selectDataByKeyBoard(data: any) {
     if (
       !(this.showSingle
@@ -439,7 +448,11 @@ export class SingleSelectDropdownComponent
       }
     }
   }
-  keydownOnDataList(event: KeyboardEvent) {
+  /**
+   * @description this method is use select value using arrow up and arrow down key
+   * @param event
+   */
+  keydownOnDataList(event: KeyboardEvent): void {
     if (!this.disabledFormControl) {
       if (
         (event.key == 'ArrowUp' || event.key == 'ArrowDown') &&
@@ -469,7 +482,7 @@ export class SingleSelectDropdownComponent
           if (index == -1 || index == 0) {
             this.selectDataByKeyBoard(
               this.dropdownValues[
-                this.checkDisabledFied(
+                this.checkDisabledField(
                   this.dropdownValues.length - 1,
                   'ArrowUp'
                 )
@@ -477,23 +490,21 @@ export class SingleSelectDropdownComponent
             );
           } else {
             this.selectDataByKeyBoard(
-              this.dropdownValues[this.checkDisabledFied(index - 1, 'ArrowUp')]
+              this.dropdownValues[this.checkDisabledField(index - 1, 'ArrowUp')]
             );
           }
-          // event.preventDefault();
         } else if (event.key == 'ArrowDown') {
           if (index == this.dropdownValues.length - 1 || index == -1) {
             this.selectDataByKeyBoard(
-              this.dropdownValues[this.checkDisabledFied(0, 'ArrowDown')]
+              this.dropdownValues[this.checkDisabledField(0, 'ArrowDown')]
             );
           } else {
             this.selectDataByKeyBoard(
               this.dropdownValues[
-                this.checkDisabledFied(index + 1, 'ArrowDown')
+                this.checkDisabledField(index + 1, 'ArrowDown')
               ]
             );
           }
-          // event.preventDefault();
         }
         setTimeout(() => {
           let data: any = document.getElementsByClassName('selected_item');
@@ -504,7 +515,11 @@ export class SingleSelectDropdownComponent
       }
     }
   }
-
+  /**
+   * @description this method is use to check user is not patch again same value
+   * @param value
+   * @returns
+   */
   checkEmitterTime(value: any): boolean {
     if (this.showSingle) {
       return this.showselectedItem != value;
