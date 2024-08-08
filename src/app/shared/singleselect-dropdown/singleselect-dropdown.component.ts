@@ -314,7 +314,7 @@ export class SingleSelectDropdownComponent
     }
   }
   /**
-   * @description this method is use to focus or select value of formcontrol
+   * @description this method is use to perform action when formcontrol on focus
    * @param event
    */
   keydonwOnMain(event: KeyboardEvent): void {
