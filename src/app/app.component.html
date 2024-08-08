@@ -28,17 +28,18 @@
       #singleselect1="ngModel"
       [disableOptionList]="disableOptionList"
       required
+      disabled
       (selectItem)="updateSingleSelect($event)"
     >
     </app-singleselect-dropdown>
-    <div
+    <!-- <div
       class="text-danger error_message small"
       *ngIf="(singleselect1?.touched || singleselect1?.dirty) && singleselect1?.errors?.['required']"
     >
       this field is required
-    </div>
+    </div> -->
   </div>
-  <div style="width: 300px">
+  <!-- <div style="width: 300px">
     <app-singleselect-dropdown
       [optionsList]="organisationList"
       [singleSelectSettings]="selectSettings"
@@ -50,9 +51,10 @@
       (selectItem)="updateSingleSelect($event)"
     >
     </app-singleselect-dropdown>
+    {{ singleselect2.errors | json }}
     <div
       class="text-danger error_message small"
-      *ngIf="(singleselect2?.touched || singleselect2?.dirty) && singleselect2?.errors?.['required']"
+      *ngIf="(singleselect2?.touched || singleselect2?.dirty)&& singleselect2?.invalid && singleselect2.errors?.['required']"
     >
       this field is required
     </div>
@@ -61,7 +63,6 @@
     <app-multiselect-dropdown
       name="multiselect22"
       [optionsList]="organisationList"
-      [disabledField]="true"
       [selectSetting]="multiSelectSettings"
       [disabledItemList]="[]"
       [(ngModel)]="multiselect11"
@@ -75,7 +76,6 @@
     <app-multiselect-dropdown
       name="multiselect1"
       [optionsList]="organisation"
-      [disabledField]="false"
       [selectSetting]="multiSelectSettings"
       [disabledItemList]="[8, 7]"
       [(ngModel)]="multiselect"
@@ -83,9 +83,9 @@
       required
     >
     </app-multiselect-dropdown>
-  </div>
+  </div> -->
 </form>
-
+<!-- 
 <select style="width: 300px">
   <option>1</option>
   <option>2</option>
@@ -215,7 +215,7 @@
   <option>2</option>
   <option>3</option>
   <option>4</option>
-</select>
+</select> -->
 <!-- 
 <div class="d-flex">
   <div class="div1">lkjalsdfjl;sadf</div>
@@ -254,3 +254,40 @@
 </div> -->
 <!-- <app-time-picker></app-time-picker> -->
 <!-- <button (click)="addRowData()">Add Row</button> -->
+
+<form [formGroup]="testingForm">
+  contact
+  <!-- <app-singleselect-dropdown
+    [optionsList]="organisationList"
+    [singleSelectSettings]="selectSettings"
+    formControlName="contact"
+    [disableOptionList]="disableOptionList"
+    (selectItem)="singleSelectForm($event)"
+  >
+  </app-singleselect-dropdown> -->
+  <!-- {{ testingForm.value | json }} -->
+
+  <app-singleselect-dropdown
+    [optionsList]="organisationList"
+    [singleSelectSettings]="selectSettings"
+    formControlName="organization"
+    [disableOptionList]="disableOptionList"
+    (selectItem)="singleSelectForm($event)"
+  >
+  </app-singleselect-dropdown>
+  {{ testingForm.value | json }}
+  <span
+    *ngIf="(testingForm.controls.organization.touched || testingForm.controls.organization.dirty) && 
+    testingForm.controls.organization.invalid && 
+    testingForm.controls.organization.errors?.['required']"
+  >
+    organization field is required
+  </span>
+
+  <!-- <input type="text" formControlName="contact" /> -->
+</form>
+
+<button (click)="testingForm.reset(); dataForm.reset()">Reset</button>
+{{ testingForm.controls.organization.disabled }}
+
+<!-- {{ singleselect1?.disabled }} -->

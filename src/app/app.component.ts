@@ -3,6 +3,7 @@ import { TableTreeComponent } from './table-tree/table-tree.component';
 import { TestingCellrendererComponent } from './custom-table/testing-cellrenderer/testing-cellrenderer.component';
 import { signleSelectDropdownSettings } from './shared/singleselect-dropdown/singleselect.model';
 import { multiselectDropdownSettings } from './multiselect-dropdown/multiselect.model';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -16,8 +17,10 @@ export class AppComponent implements AfterViewInit, OnInit {
         componentParent: this,
       },
     };
+    // this.testingForm.controls.organization.patchValue(1);
   }
   singleselect: any = null;
+  constructor(private fb: FormBuilder) {}
   ngAfterViewInit(): void {
     // console.log(this.colDef[2].cellRenderer(987654))
     // let newBlob = fetch('').then((r) => r.blob());
@@ -105,6 +108,7 @@ export class AppComponent implements AfterViewInit, OnInit {
 
   updateSingleSelect(event: any) {
     this.selectedItem = event.id;
+    // this.singleselect21 = event.id;
   }
   getSelectedRow(_event: any) {}
 
@@ -121,10 +125,10 @@ export class AppComponent implements AfterViewInit, OnInit {
   selectSettings: signleSelectDropdownSettings = {
     idField: 'id',
     textField: 'name',
-    selectType: 'unObject',
+    selectType: 'idField',
   };
   disableOptionList = [4, 6, 8, 1];
-  singleselect21: any;
+  singleselect21: any = 'aditya org 2';
   count = 0;
   addRowData() {
     let newRow = [
@@ -146,7 +150,18 @@ export class AppComponent implements AfterViewInit, OnInit {
     { id: 2, name: 'aditya org 2', isDisabled: false },
     { id: 3, name: 'aditya org 3', isDisabled: false },
     { id: 4, name: 'aditya org 4' },
-    { id: 5, name: 'aditya org 5', isDisabled: false },
+    { id: 5, name: 'aditya org 5', isDisabled: true },
     { id: 6, name: 'aditya org 6' },
   ];
+
+  testingForm = this.fb.group({
+    organization: new FormControl({ value: 2, disabled: true }, [
+      Validators.required,
+    ]),
+    contact: new FormControl(2, [Validators.required]),
+  });
+
+  singleSelectForm(event: any): void {
+    this.testingForm.controls.organization.patchValue(event.id);
+  }
 }

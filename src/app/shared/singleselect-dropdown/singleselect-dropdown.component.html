@@ -1,12 +1,16 @@
-<div class="acsingleselect" [ngClass]="{ disableselect: disabledField }">
+<div class="acsingleselect" [ngClass]="{ disableselect: disabledFormControl }">
   <div
     class="singleSelect"
     tabindex="0"
     (keydown)="keydonwOnMain($event)"
     (click)="opendropdown()"
-    [ngClass]="{
-      errorClass: (control?.touched || control?.dirty) && control?.errors
-    }"
+    [ngClass]="
+      (control?.touched || control?.dirty) &&
+      control?.invalid &&
+      control?.errors
+        ? errorClassName
+        : ''
+    "
   >
     <div
       class="selecteditem"
@@ -33,18 +37,6 @@
         </div>
       </ng-template>
     </div>
-    <!-- <input
-      type="text"
-      tabindex="-1"
-      class="selecteditem form-control"
-      [(ngModel)]="
-        showSingle
-          ? showselectedItem
-          : showselectedItem[selectSettings.textField]
-      "
-      [placeholder]="selectSettings.placeholderName"
-      [ngStyle]="{ height: selectSettings.heightPx + 'px' }"
-    /> -->
     <div class="togglebutton">
       <span class="dropdown-down" [ngClass]="{ d_none: showdropdown }"></span>
       <span class="dropdown-up" [ngClass]="{ d_none: !showdropdown }"></span>
@@ -75,7 +67,8 @@
           *ngFor="let dropdownvalue of dropdownValues"
           [ngClass]="[
             dropdownvalue[selectSettings.idField] ==
-            showselectedItem[selectSettings.idField]
+            showselectedItem?.[selectSettings.idField] && dropdownvalue[selectSettings.textField] ==
+            showselectedItem?.[selectSettings.textField]
               ? 'selected_item'
               : '',
             dropdownvalue?.isDisabled ? 'disabledClass' : ''

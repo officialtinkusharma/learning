@@ -4,6 +4,6 @@ export interface signleSelectDropdownSettings {
   heightPx?: number;
   placeholderName?: string;
   searchEnable?: boolean;
-  selectType?: 'object' | 'unObject';
+  selectType?: 'object' | 'idField' | 'textField';
   noDataAvailableText?: string;
 }
