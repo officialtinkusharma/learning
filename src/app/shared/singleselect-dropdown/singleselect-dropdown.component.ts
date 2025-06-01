@@ -41,8 +41,7 @@ import { signleSelectDropdownSettings } from './singleselect.model';
   styleUrls: ['./singleselect-dropdown.component.scss'],
 })
 export class SingleSelectDropdownComponent
-  implements OnChanges, ControlValueAccessor, Validator
-{
+  implements OnChanges, ControlValueAccessor, Validator {
   defaultSetting: signleSelectDropdownSettings = {
     idField: 'id',
     textField: 'name',
@@ -77,7 +76,7 @@ export class SingleSelectDropdownComponent
 
   selectSettings: any = { ...this.defaultSetting };
 
-  constructor(private cdr: ChangeDetectorRef, private el: ElementRef) {}
+  constructor(private cdr: ChangeDetectorRef, private el: ElementRef) { }
   /**
    * @author Tinku Sharma
    * @description ngOnchnage() method use show preselect data
@@ -132,9 +131,9 @@ export class SingleSelectDropdownComponent
       this.showSingle
         ? item.toString().toLowerCase().includes(searchValue.toLowerCase())
         : item?.[this.selectSettings?.textField]
-            .toString()
-            .toLowerCase()
-            .includes(searchValue.toLowerCase())
+          .toString()
+          .toLowerCase()
+          .includes(searchValue.toLowerCase())
     );
     event.stopPropagation();
   }
@@ -162,9 +161,9 @@ export class SingleSelectDropdownComponent
       } else {
         if (
           this.showselectedItem[this.selectSettings.idField] !=
-            data[this.selectSettings.idField] &&
+          data[this.selectSettings.idField] &&
           this.showselectedItem[this.selectSettings.textField] !=
-            data[this.selectSettings.textField]
+          data[this.selectSettings.textField]
         ) {
           this.showselectedItem = data;
 
@@ -264,8 +263,8 @@ export class SingleSelectDropdownComponent
     }
   }
 
-  private onTouchedCallback: () => void = () => {};
-  private onChangeCallback: (_: any) => void = () => {};
+  private onTouchedCallback: () => void = () => { };
+  private onChangeCallback: (_: any) => void = () => { };
   // private onValidatorChange: () => void = () => {};
   registerOnChange(fn: any) {
     this.onChangeCallback = fn;
@@ -338,9 +337,9 @@ export class SingleSelectDropdownComponent
             } else {
               return (
                 this.showselectedItem[this.selectSettings.idField] ==
-                  item[this.selectSettings.idField] &&
+                item[this.selectSettings.idField] &&
                 this.showselectedItem[this.selectSettings.textField] ==
-                  item[this.selectSettings.textField]
+                item[this.selectSettings.textField]
               );
             }
           });
@@ -349,10 +348,10 @@ export class SingleSelectDropdownComponent
           if (index == -1 || index == 0) {
             this.selectDataByKeyBoard(
               this.dropdownValues[
-                this.checkDisabledField(
-                  this.dropdownValues.length - 1,
-                  'ArrowUp'
-                )
+              this.checkDisabledField(
+                this.dropdownValues.length - 1,
+                'ArrowUp'
+              )
               ]
             );
           } else {
@@ -369,7 +368,7 @@ export class SingleSelectDropdownComponent
           } else {
             this.selectDataByKeyBoard(
               this.dropdownValues[
-                this.checkDisabledField(index + 1, 'ArrowDown')
+              this.checkDisabledField(index + 1, 'ArrowDown')
               ]
             );
           }
@@ -433,9 +432,9 @@ export class SingleSelectDropdownComponent
       } else {
         if (
           this.showselectedItem[this.selectSettings.idField] !=
-            data[this.selectSettings.idField] &&
+          data[this.selectSettings.idField] &&
           this.showselectedItem[this.selectSettings.textField] !=
-            data[this.selectSettings.textField]
+          data[this.selectSettings.textField]
         ) {
           this.showselectedItem = data;
 
@@ -471,9 +470,9 @@ export class SingleSelectDropdownComponent
             } else {
               return (
                 this.showselectedItem[this.selectSettings.idField] ==
-                  item[this.selectSettings.idField] &&
+                item[this.selectSettings.idField] &&
                 this.showselectedItem[this.selectSettings.textField] ==
-                  item[this.selectSettings.textField]
+                item[this.selectSettings.textField]
               );
             }
           });
@@ -482,10 +481,10 @@ export class SingleSelectDropdownComponent
           if (index == -1 || index == 0) {
             this.selectDataByKeyBoard(
               this.dropdownValues[
-                this.checkDisabledField(
-                  this.dropdownValues.length - 1,
-                  'ArrowUp'
-                )
+              this.checkDisabledField(
+                this.dropdownValues.length - 1,
+                'ArrowUp'
+              )
               ]
             );
           } else {
@@ -501,7 +500,7 @@ export class SingleSelectDropdownComponent
           } else {
             this.selectDataByKeyBoard(
               this.dropdownValues[
-                this.checkDisabledField(index + 1, 'ArrowDown')
+              this.checkDisabledField(index + 1, 'ArrowDown')
               ]
             );
           }
@@ -526,9 +525,9 @@ export class SingleSelectDropdownComponent
     } else {
       return typeof value == 'object'
         ? this.showselectedItem?.[this.selectSettings.idField] !=
-            value[this.selectSettings.idField]
+        value[this.selectSettings.idField]
         : this.showselectedItem?.[this.selectSettings.idField] != value &&
-            this.showselectedItem?.[this.selectSettings.textField] != value;
+        this.showselectedItem?.[this.selectSettings.textField] != value;
     }
   }
 }
